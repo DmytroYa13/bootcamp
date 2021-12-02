@@ -1,0 +1,24 @@
+<div class="post-form">
+
+  <form [formGroup]="postForm" (ngSubmit)="submitPostForm()">
+
+    <div class="input-block">
+      <input type="text" placeholder="Author name" formControlName="author">
+      <div *ngIf="formErrors.author" class="control-error">{{formErrors.author}}</div>
+    </div>
+
+    <div class="input-block">
+      <input type="text" placeholder="Title" formControlName="title">
+      <div *ngIf="formErrors.title" class="control-error">{{formErrors.title}}</div>
+    </div>
+
+    <div class="input-block">
+      <textarea rows="10" placeholder="Content" formControlName="content"></textarea>
+      <div *ngIf="formErrors.content" class="control-error">{{formErrors.content}}</div>
+    </div>
+
+    <button type="submit" [disabled]="postForm.invalid">Save</button>
+
+  </form>
+
+</div>

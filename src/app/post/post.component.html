@@ -1,0 +1,28 @@
+<article class="post">
+  <div class="post__body">
+    <div class="post__head">
+      <div class="post__author-block">
+
+        <div class="post__author-img">
+          <img src="../../assets/no-avatar.svg" [alt]="post.author" [title]="post.author">
+        </div>
+
+        <div class="post__author-info">
+          <div class="post__author-name">{{post.author}}</div>
+          <div class="post__author-date">{{post.date | date:"MMMM d, YYYY"}}</div>
+        </div>
+      </div>
+
+      <div class="post__like-block">
+        <div class="post__like post__like_active">&#9829; {{post.likeNumber}}</div>
+      </div>
+    </div>
+
+    <h2 class="post__title">{{post.title}}</h2>
+
+    <p class="post__content">{{post.content}}</p>
+
+    <div class="post__read-more"><span>Read more...</span></div>
+
+  </div>
+</article>

@@ -1,0 +1,32 @@
+.post-form {
+  margin: 20px;
+}
+
+.input-block {
+  min-height: 70px;
+
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid grey;
+    box-sizing: border-box;
+  }
+
+}
+
+.control-error{
+  font-size: 14px;
+  color: red;
+  padding-top: 5px;
+}
+
+.ng-invalid.ng-touched:not(form) {
+  border-color: red;
+}
+
+.ng-valid.ng-touched:not(form) {
+  border-color: green;
+}
+
+
