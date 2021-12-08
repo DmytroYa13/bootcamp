@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { of, Subscription } from 'rxjs';
-import { Post } from '../shared/interfaces/post.interface';
-import { PostsService } from '../shared/services/posts.service';
+import { Post } from '../../../shared/interfaces/post.interface';
+import { PostsService } from '../../services/posts.service';
 
 @Component({
-  selector: 'app-posts',
-  templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  selector: 'app-post-list',
+  templateUrl: './post-list.component.html',
+  styleUrls: ['./post-list.component.scss']
 })
-export class PostsComponent implements OnInit, OnDestroy {
+export class PostListComponent implements OnInit, OnDestroy {
 
   posts: Post[] = []
   getPostsSubscription: Subscription

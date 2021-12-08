@@ -1,3 +1,5 @@
+$green: green;
+
 .post {
 
   border-top: 1px solid grey;
@@ -39,7 +41,7 @@
   }
 
   &__author-name {
-    color: green;
+    color: $green;
   }
 
   &__author-date {
@@ -50,15 +52,15 @@
 
   &__like {
     background-color: white;
-    color: green;
+    color: $green;
     padding: 5px;
-    border: 1px solid green;
+    border: 1px solid $green;
     border-radius: 3px;
     cursor: pointer;
   }
 
   &__like_active {
-    background-color: green;
+    background-color: $green;
     color: white;
   }
 
@@ -67,7 +69,8 @@
     font-weight: 900;
   }
 
-  &__read-more {
+  &__link {
+
     span {
       cursor: pointer;
       color: grey;
