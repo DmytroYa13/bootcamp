@@ -5,8 +5,8 @@ import { Post } from 'src/app/shared/interfaces/post.interface';
 import { PostsService } from './posts.service';
 
 const FAKE_POSTS: Post[] = [
-  { author: 'John Dow', title: 'Natural language interface accessibility', date: new Date().toDateString(), likeNumber: 20, content: 'lorem' },
-  { author: 'Anderson Bred', title: 'Accessibility of Remote Mettings', date: new Date().toDateString(), likeNumber: 2, content: 'lorem' },
+  { author: 'John Dow', title: 'Natural language interface accessibility', date: new Date().toDateString(), likeNumber: 20, isLiked: false, content: 'lorem' },
+  { author: 'Anderson Bred', title: 'Accessibility of Remote Mettings', date: new Date().toDateString(), likeNumber: 2, isLiked: true, content: 'lorem' },
 ]
 
 @Injectable()

@@ -8,4 +8,9 @@ import { Post } from '../../../shared/interfaces/post.interface';
 })
 export class PostItemComponent {
   @Input() post: Post
+
+  changeLike(post: Post): void {
+    post.isLiked = !post.isLiked
+  }
+
 }

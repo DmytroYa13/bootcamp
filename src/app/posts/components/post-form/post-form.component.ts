@@ -65,7 +65,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
     Object.keys(this.formErrors).forEach((field: string) => {
       this.formErrors[field] = ''
       let control = form.get(field)
-      if ((control instanceof FormControl) && control.dirty && !control.valid) {
+      if ((control instanceof FormControl) && control.invalid) {
         let message = this.validationMessage[field]
         Object.keys(control.errors!).forEach((key: string) => {
           if(message[key]) {
