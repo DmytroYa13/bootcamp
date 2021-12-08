@@ -1,0 +1,11 @@
+.posts-section {
+  display: flex;
+
+  &__content {
+    width: 70%;
+  }
+
+  &__aside {
+    width: 30%;
+  }
+}

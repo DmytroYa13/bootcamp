@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  &__title {
+    color: green;
+  }
+
+  &__nav {
+  }
+
+  &__list {
+    list-style: none;
+    display: flex;
+  }
+
+  &__list-item {
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+
+  }
+}

@@ -1,0 +1,82 @@
+$green: green;
+
+.post {
+
+  border-top: 1px solid grey;
+
+  &__body {
+    margin: 15px;
+  }
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__author-block {
+    display: flex;
+  }
+
+  &__author-img {
+
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  &__author-info {
+    margin-left: 10px;;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__author-name {
+    color: $green;
+  }
+
+  &__author-date {
+  }
+
+  &__like-block {
+  }
+
+  &__like {
+    background-color: white;
+    color: $green;
+    padding: 5px;
+    border: 1px solid $green;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  &__like_active {
+    background-color: $green;
+    color: white;
+  }
+
+  &__title {
+    font-size: 25px;
+    font-weight: 900;
+  }
+
+  &__link {
+
+    span {
+      cursor: pointer;
+      color: grey;
+    }
+  }
+
+  &__content {
+  }
+}
