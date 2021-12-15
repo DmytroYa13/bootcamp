@@ -1,22 +1,9 @@
-$green: green;
+@import '_variables';
 
 .post {
 
-  border-top: 1px solid grey;
-
-  &__body {
-    margin: 15px;
-  }
-
-  &__head {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-
-  &__author-block {
-    display: flex;
-  }
+  margin-bottom: 20px;
+  background-color: $cardBackColor;
 
   &__author-img {
 
@@ -33,40 +20,9 @@ $green: green;
     }
   }
 
-  &__author-info {
-    margin-left: 10px;;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  &__author-name {
-    color: $green;
-  }
-
-  &__author-date {
-  }
-
-  &__like-block {
-  }
-
-  &__like {
-    background-color: white;
-    color: $green;
-    padding: 5px;
-    border: 1px solid $green;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  &__like_active {
-    background-color: $green;
-    color: white;
-  }
-
-  &__title {
-    font-size: 25px;
-    font-weight: 900;
+  button[mat-icon-button] {
+    position: absolute;
+    right: 25px;
   }
 
   &__link {
@@ -77,6 +33,4 @@ $green: green;
     }
   }
 
-  &__content {
-  }
 }

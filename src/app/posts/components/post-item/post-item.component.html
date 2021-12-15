@@ -1,28 +1,23 @@
-<article class="post">
-  <div class="post__body">
-    <div class="post__head">
-      <div class="post__author-block">
-
-        <div class="post__author-img">
-          <img src="../../assets/no-avatar.svg" [alt]="post.author" [title]="post.author">
-        </div>
-
-        <div class="post__author-info">
-          <div class="post__author-name">{{post.author}}</div>
-          <div class="post__author-date">{{post.date | date:"MMMM d, YYYY"}}</div>
-        </div>
+<article *ngIf="post">
+  <mat-card class="post">
+    <mat-card-header>
+      <div mat-card-avatar class="post__author-img">
+        <img src="../../assets/no-avatar.svg" [alt]="post.author" [title]="post.author">
       </div>
+      <mat-card-title>{{post.author}}</mat-card-title>
+      <mat-card-subtitle>{{post.date | date:"MMMM d, YYYY"}}</mat-card-subtitle>
 
-      <div class="post__like-block">
-        <div class="post__like post__like_active">&#9829; {{post.likeNumber}}</div>
-      </div>
-    </div>
+      <button (click)="changeLike(post)" mat-icon-button color="warn">
+        <mat-icon *ngIf="post.isLiked">favorite</mat-icon>
+        <mat-icon *ngIf="!post.isLiked">favorite_border</mat-icon>
+        {{post.likeNumber}}
+      </button>
 
-    <h2 class="post__title">{{post.title}}</h2>
-
-    <p class="post__content">{{post.content}}</p>
-
-    <div class="post__link"><span>Read more...</span></div>
-
-  </div>
+    </mat-card-header>
+    <mat-card-content>
+      <h2 class="post__title">{{post.title}}</h2>
+      <p class="post__content">{{post.content}}</p>
+      <div class="post__link"><span>Read more...</span></div>
+    </mat-card-content>
+  </mat-card>
 </article>

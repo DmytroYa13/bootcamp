@@ -1,9 +1,13 @@
+@import '_variables';
+
 .tags {
 
-  &__content {
+  mat-card{
+    background-color: $cardBackColor;
     margin-left: 20px;
+  }
+
+  &__content {
     padding: 10px;
-    background-color: rgb(211, 210, 210);
-    border-radius: 10px;
   }
 }

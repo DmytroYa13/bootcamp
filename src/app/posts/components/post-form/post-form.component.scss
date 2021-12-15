@@ -1,0 +1,15 @@
+.post-form {
+  margin: 20px 0;
+
+  .input-block {
+    min-height: 80px;
+  }
+
+  .post-form__input {
+    width: 60%;
+  }
+
+  button[type="submit"]{
+    margin: 10px 0;
+  }
+}

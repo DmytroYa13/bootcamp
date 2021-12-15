@@ -1,12 +1,14 @@
+@import '_variables';
+
 .header {
   display: flex;
   justify-content: space-between;
+  min-height: 100px;
 
   &__title {
-    color: green;
-  }
-
-  &__nav {
+    padding-top: 20px;
+    color: $mainColor;
+    font-size: 3rem;
   }
 
   &__list {
@@ -18,7 +20,7 @@
     cursor: pointer;
 
     &:not(:last-child) {
-      margin-right: 15px;
+      margin-right: 20px;
     }
 
   }
