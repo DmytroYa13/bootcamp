@@ -8,7 +8,8 @@ import { PostsLayoutComponent } from './shared/components/posts-layout/posts-lay
 import { HeaderComponent } from './header/header.component';
 import { TagsComponent } from './tags/tags.component';
 import { PostsModule } from './posts/posts.module';
-import { MaterialModule } from './shared/modules/material-module/material-module.module';
+import { SharedModule } from './shared/shared-module.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,7 @@ import { MaterialModule } from './shared/modules/material-module/material-module
   ],
   imports: [
     BrowserModule,
-    MaterialModule,
+    SharedModule,
     AppRoutingModule,
     PostsModule,
     BrowserAnimationsModule,

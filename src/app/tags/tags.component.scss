@@ -1,7 +1,9 @@
+@import '_variables';
+
 .tags {
 
   mat-card{
-    background-color: rgba(231, 231, 231, 0.39);
+    background-color: $cardBackColor;
     margin-left: 20px;
   }
 

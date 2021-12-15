@@ -7,7 +7,7 @@ import { PostsFakeService } from './services/posts-fake.service';
 import { PostFormComponent } from './components/post-form/post-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from '../shared/modules/material-module/material-module.module';
+import { SharedModule } from '../shared/shared-module.module';
 
 const components = [PostItemComponent, PostListComponent, PostFormComponent]
 
@@ -16,7 +16,7 @@ const components = [PostItemComponent, PostListComponent, PostFormComponent]
   exports: [...components],
   imports: [
     CommonModule,
-    MaterialModule,
+    SharedModule,
     ReactiveFormsModule,
     HttpClientModule
   ],
