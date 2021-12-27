@@ -1,14 +1,5 @@
-<div class="post-form">
+<div *ngIf="tags | async as tags; else loading" class="post-form">
   <form [formGroup]="postForm" (ngSubmit)="submitPostForm()">
-    <div class="input-block">
-      <mat-form-field class="post-form__input" appearance="fill">
-        <mat-label>Author name</mat-label>
-
-        <mat-error *ngIf="formErrors.author">{{formErrors.author}}</mat-error>
-
-        <input matInput type="text" formControlName="author">
-      </mat-form-field>
-    </div>
 
     <div class="input-block">
       <mat-form-field class="post-form__input" appearance="fill">
@@ -22,6 +13,16 @@
 
     <div class="input-block">
       <mat-form-field class="post-form__input" appearance="fill">
+        <mat-label>Subtitle</mat-label>
+
+        <mat-error *ngIf="formErrors.subTitle">{{formErrors.subTitle}}</mat-error>
+
+        <input matInput type="text" formControlName="subTitle">
+      </mat-form-field>
+    </div>
+
+    <div class="input-block">
+      <mat-form-field class="post-form__input" appearance="fill">
         <mat-label>Content</mat-label>
         <textarea matInput rows="5" formControlName="content"></textarea>
 
@@ -29,6 +30,20 @@
 
       </mat-form-field>
     </div>
-    <button type="submit" [disabled]="postForm.invalid" mat-raised-button color="primary">Save</button>
+
+    <div class="input-block">
+      <mat-form-field appearance="fill">
+        <mat-label>Tags</mat-label>
+        <mat-select formControlName="tags" multiple>
+          <mat-option *ngFor="let tag of tags" [value]="tag.name">{{tag.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <button type="submit" [disabled]="postForm.invalid || postForm.disabled" mat-raised-button color="primary">Save</button>
   </form>
 </div>
+
+<ng-template #loading>
+  <app-loader></app-loader>
+</ng-template>

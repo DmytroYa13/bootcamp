@@ -21,7 +21,9 @@ const components = [PostItemComponent, PostListComponent, PostFormComponent]
     HttpClientModule
   ],
   providers: [
-    { provide: PostsService, useClass: PostsFakeService }
+    PostsService,
+    // to use fakeService
+    // { provide: PostsService, useClass: PostsFakeService }
   ],
 })
 export class PostsModule { }
