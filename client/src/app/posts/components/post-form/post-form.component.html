@@ -1,5 +1,5 @@
-<div *ngIf="tags | async as tags; else loading" class="post-form">
-  <form [formGroup]="postForm" (ngSubmit)="submitPostForm()">
+<div *ngIf="tags | async as tags; else loading" class="blog-form">
+  <form [formGroup]="postForm" (ngSubmit)="submitPostForm()" class="blog-form__width-8">
 
     <div class="input-block">
       <mat-form-field class="post-form__input" appearance="fill">

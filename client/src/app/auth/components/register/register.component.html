@@ -1,0 +1,39 @@
+<div class="blog-form">
+  <form [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()" class="blog-form__width-5">
+
+    <h2>Registration</h2>
+
+    <div class="input-block">
+      <mat-form-field class="auth-form__input" appearance="fill">
+        <mat-label>Name</mat-label>
+
+        <mat-error *ngIf="formErrors.userName">{{formErrors.userName}}</mat-error>
+
+        <input matInput type="text" formControlName="userName">
+      </mat-form-field>
+    </div>
+
+    <div class="input-block">
+      <mat-form-field class="auth-form__input" appearance="fill">
+        <mat-label>Email</mat-label>
+
+        <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+
+        <input matInput type="email" formControlName="email">
+      </mat-form-field>
+    </div>
+
+    <div class="input-block">
+      <mat-form-field class="auth-form__input" appearance="fill">
+        <mat-label>Password</mat-label>
+
+        <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
+
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid || registerForm.disabled" mat-raised-button color="primary">RegisterForm</button>
+  </form>
+</div>
+

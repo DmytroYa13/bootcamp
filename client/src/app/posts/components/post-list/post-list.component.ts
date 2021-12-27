@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
+
 import { Post } from '../../../shared/interfaces/post.interface';
 import { PostsService } from '../../services/posts.service';
 
@@ -12,6 +13,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   posts: Post[] = []
   getPostsSubscription: Subscription
+  isloaded: boolean = false
 
   constructor(
     private postsService: PostsService
@@ -28,6 +30,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   getPosts(): void {
     this.getPostsSubscription = this.postsService.getAll().subscribe((data: Post[]) => {
       this.posts = data
+      this.isloaded = true
     })
   }
 

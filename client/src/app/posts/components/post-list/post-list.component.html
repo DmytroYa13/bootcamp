@@ -1,1 +1,15 @@
-<app-post-item *ngFor="let post of posts" [post]="post"></app-post-item>
+<ng-container *ngIf="isloaded; else loading">
+
+  <ng-container *ngIf="posts.length > 0; else empty">
+    <app-post-item *ngFor="let post of posts" [post]="post" ></app-post-item>
+  </ng-container>
+
+  <ng-template #empty>
+    <div class="alert alert-warning">No posts</div>
+  </ng-template>
+
+</ng-container>
+
+<ng-template #loading>
+  <app-loader></app-loader>
+</ng-template>

@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { debounceTime, Observable, Subscription } from 'rxjs';
+
 import { Tag } from 'src/app/shared/interfaces/tags.interface';
-import { TagsService } from 'src/app/shared/services/tags.service';
+import { TagsService } from 'src/app/tags/services/tags.service';
 import { PostsService } from '../../services/posts.service';
 
 @Component({
@@ -41,7 +43,8 @@ export class PostFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private tagsService: TagsService,
-    private postsService: PostsService
+    private postsService: PostsService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -95,7 +98,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
     this.postForm.disable()
     console.log(this.postForm.value);
     this.postsService.create(this.postForm.value).subscribe({
-      next: (data) => console.log(data),
+      next: () => this.router.navigate(['/']) ,
       error: (e) => {
         console.log(e);
         this.postForm.enable()

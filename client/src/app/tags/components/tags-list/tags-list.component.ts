@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Tag } from '../shared/interfaces/tags.interface';
-import { TagsService } from '../shared/services/tags.service';
+
+import { Tag } from 'src/app/shared/interfaces/tags.interface';
+import { TagsService } from 'src/app/tags/services/tags.service';
 
 @Component({
-  selector: 'app-tags',
-  templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.scss']
+  selector: 'app-tags-list',
+  templateUrl: './tags-list.component.html',
+  styleUrls: ['./tags-list.component.scss']
 })
-export class TagsComponent implements OnInit {
+export class TagsListComponent implements OnInit {
 
   tags: Observable<Tag[]>
 

@@ -1,10 +1,10 @@
 <header class="header">
-  <h1 class="header__title">My blog</h1>
+  <h1 [routerLink]="['/']" class="header__title">My blog</h1>
 
   <nav class="header__nav">
     <ul class="header__list">
-      <li class="header__list-item"><button mat-button>Home</button></li>
-      <li class="header__list-item"><button mat-button>New artical</button></li>
+      <li [routerLink]="['/']" class="header__list-item"><button mat-button>Home</button></li>
+      <li [routerLink]="['/post', 'new']" class="header__list-item"><button mat-button>New artical</button></li>
       <li class="header__list-item"><button mat-button>User name</button></li>
     </ul>
   </nav>
