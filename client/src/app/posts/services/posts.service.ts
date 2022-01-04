@@ -6,7 +6,7 @@ import { Post } from 'src/app/shared/interfaces/post.interface';
 @Injectable()
 export class PostsService {
 
-  private apiUrl: string = ''
+  private apiUrl: string = '/api/posts'
 
   constructor(private http: HttpClient) { }
 

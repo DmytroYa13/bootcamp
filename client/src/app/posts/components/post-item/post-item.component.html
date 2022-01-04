@@ -2,15 +2,17 @@
   <mat-card class="post">
     <mat-card-header>
       <div mat-card-avatar class="post__author-img">
-        <img src="../../assets/no-avatar.svg" [alt]="post.author" [title]="post.author">
+        <img [src]="post.author.imgSrc ? post.author.imgSrc :  '../../assets/no-avatar.svg'"
+          [alt]="post.author"
+          [title]="post.author">
       </div>
-      <mat-card-title>{{post.author}}</mat-card-title>
-      <mat-card-subtitle>{{post.date | date:"MMMM d, YYYY"}}</mat-card-subtitle>
+      <mat-card-title>{{post.author.userName}}</mat-card-title>
+      <mat-card-subtitle>{{post.createdAt | date:"MMMM d, YYYY"}}</mat-card-subtitle>
 
       <button (click)="changeLike(post)" mat-icon-button color="warn">
         <mat-icon *ngIf="post.isLiked">favorite</mat-icon>
         <mat-icon *ngIf="!post.isLiked">favorite_border</mat-icon>
-        {{post.likeNumber}}
+        {{post.likesQuantity}}
       </button>
 
     </mat-card-header>
