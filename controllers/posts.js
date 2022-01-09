@@ -1,35 +1,33 @@
 const errorHandler = require("../utils/errorHandler");
-const Posts = require("../models/Posts");
+const Post = require("../models/post");
+const mongoose = require("mongoose");
 
 // TODO: delete after creating auth
-const user = {
-  id: "61c4d3f28acc099a7794cbd6",
+const author = {
+  id: "61dad3027e81323ad0748a3d",
 };
 
 module.exports.getAll = async function (req, res) {
   try {
-    let posts = await Posts.find().sort({ createdAt: -1 }).populate("author", {
-      userName: 1,
-      imgSrc: 1,
-      _id: 0,
-    });
+    const posts = await Post.aggregate([...postsStages]);
 
-    let result = posts.map((post) => postResponseMapper(post, user.id));
-
-    res.status(200).json(result);
+    res.status(200).json(posts);
   } catch (e) {
     errorHandler(res, e);
   }
 };
 
 module.exports.getById = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    const post = await Posts.findById(req.params.id).populate("author", {
-      userName: 1,
-      imgSrc: 1,
-      _id: 0,
-    });
-    res.status(200).json(postResponseMapper(post, user.id));
+    const post = await Post.aggregate([
+      { $match: { _id: getObjectId(id) } },
+      ...postsStages,
+    ]);
+
+    res.status(200).json(post);
   } catch (e) {
     errorHandler(res, e);
   }
@@ -37,9 +35,9 @@ module.exports.getById = async function (req, res) {
 
 module.exports.create = async function (req, res) {
   try {
-    const post = await new Posts({
+    const post = await new Post({
       ...req.body,
-      author: "61c4d4912e280d52eaed3e1e", //TODO change after auth
+      author: author.id, //TODO change after auth
     }).save();
 
     res.status(201).json(post);
@@ -49,9 +47,12 @@ module.exports.create = async function (req, res) {
 };
 
 module.exports.update = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    const post = await Posts.findByIdAndUpdate(
-      { _id: req.params.id },
+    const post = await Post.findByIdAndUpdate(
+      { _id: id },
       { $set: req.body },
       { new: true }
     );
@@ -64,7 +65,7 @@ module.exports.update = async function (req, res) {
 
 module.exports.remove = async function (req, res) {
   try {
-    await Posts.remove({ _id: req.params.id });
+    await Post.remove({ _id: req.params.id });
     res.status(200).json({
       message: "Post deleted",
     });
@@ -73,22 +74,38 @@ module.exports.remove = async function (req, res) {
   }
 };
 
-// likes api
 
-module.exports.addLike = async function (req, res) {
+// like api (if like exists - remove, if not - add)
+module.exports.toggleLike = async function (req, res) {
   try {
-    const post = await Posts.findOne({ _id: req.params.id });
+    const result = await Post.aggregate([
+      { $match: { _id: getObjectId(req.params.id) } },
+
+      addLikeFieldStage
+    ]);
+
+    // because aggregate returns list
+    const [post] = result;
 
     if (post) {
-      await Posts.updateOne(
+      let toggleLikeOption;
+      if (post.isLiked) {
+        toggleLikeOption = { $pull: { usersLiked: author.id } };
+      } else {
+        toggleLikeOption = { $push: { usersLiked: author.id } };
+      }
+      const toggledLikePost = await Post.findByIdAndUpdate(
         { _id: req.params.id },
-        { $push: { usersLiked: user.id } }
+          toggleLikeOption,
+        { new: true }
       );
 
-      res.status(200).json({
-        success: true,
-        message: "like added",
-      });
+      //sends only updated fields
+      const updatedFields = {
+        likes: toggledLikePost.usersLiked.length,
+        isLiked: toggledLikePost.usersLiked.includes(author.id),
+      };
+      res.status(200).json(updatedFields);
     } else {
       res.status(404).json({
         message: "Something went wrong",
@@ -99,33 +116,37 @@ module.exports.addLike = async function (req, res) {
   }
 };
 
-module.exports.removeLike = async function (req, res) {
-  try {
-    const post = await Posts.findOne({ _id: req.params.id });
-
-    if (post) {
-      await Posts.updateOne(
-        { _id: req.params.id },
-        { $pull: { usersLiked: user.id } }
-      );
-
-      res.status(200).json({
-        success: true,
-        message: "like removed",
-      });
-    } else {
-      res.status(404).json({
-        message: "Something went wrong",
-      });
-    }
-  } catch (e) {
-    errorHandler(res, e);
-  }
-};
-
-function postResponseMapper(post, userId) {
-  post.likesQuantity = post.usersLiked.length;
-  post.isLiked = !!post.usersLiked.find((id) => id.toString() === userId);
-  delete post.usersLiked;
-  return post;
+// creating ObjectId from string for $match stage
+const getObjectId = (id) => mongoose.Types.ObjectId(id);
+ 
+// stage to add "isLiked" field
+const addLikeFieldStage = {
+  $addFields: {
+    isLiked: {
+      $cond: [{ $in: [getObjectId(author.id), "$usersLiked"] }, true, false],
+    },
+  },
 }
+
+// common stages
+const postsStages = [
+  {
+    $lookup: {
+      from: "authors",
+      localField: "author",
+      foreignField: "_id",
+      as: "author",
+      pipeline: [{ $project: { firstName: 1, lastName: 1, imgSrc: 1, _id: 0 } }],
+    },
+  },
+
+  { $unwind: "$author" },
+
+  { $addFields: { likes: { $size: "$usersLiked" } } },
+
+  addLikeFieldStage,
+
+  { $project: { usersLiked: 0 } },
+];
+
+
