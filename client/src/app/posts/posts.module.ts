@@ -15,7 +15,7 @@ import { PostsLayoutComponent } from './components/posts-layout/posts-layout.com
 import { TagsModule } from '../tags/tags.module';
 import { LikesService } from './services/likes.service';
 
-const components = [PostsLayoutComponent, PostItemComponent, PostListComponent, PostFormComponent]
+const components = [PostsLayoutComponent, PostItemComponent, PostListComponent, PostFormComponent];
 
 const routes: Routes = [
 
@@ -23,11 +23,11 @@ const routes: Routes = [
 
   { path: '', redirectTo: '/', pathMatch: 'full' },
 
-  { path:'post/new', component: PostFormComponent },
+  { path: 'post/new', component: PostFormComponent },
 
-  { path:'post/:id', component: PostPageComponent}
+  { path: 'post/:id', component: PostPageComponent }
 
-]
+];
 
 @NgModule({
   declarations: [...components, PostPageComponent],
@@ -42,7 +42,7 @@ const routes: Routes = [
   ],
   providers: [
     PostsService,
-    LikesService
+    LikesService,
     // to use fakeService
     // { provide: PostsService, useClass: PostsFakeService }
   ],

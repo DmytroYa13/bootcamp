@@ -4,7 +4,7 @@ import { TagsListComponent } from './components/tags-list/tags-list.component';
 import { SharedModule } from '../shared/shared-module.module';
 import { TagsService } from './services/tags.service';
 
-const components = [TagsListComponent]
+const components = [TagsListComponent];
 
 @NgModule({
   declarations: [...components],

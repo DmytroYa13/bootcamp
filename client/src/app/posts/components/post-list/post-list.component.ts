@@ -11,27 +11,27 @@ import { PostsService } from '../../services/posts.service';
 })
 export class PostListComponent implements OnInit, OnDestroy {
 
-  posts: Post[] = []
-  getPostsSubscription: Subscription
-  isloaded: boolean = false
+  posts: Post[] = [];
+  getPostsSubscription: Subscription;
+  isloaded: boolean = false;
 
   constructor(
     private postsService: PostsService
   ) { }
 
   ngOnInit(): void {
-    this.getPosts()
+    this.getPosts();
   }
 
   ngOnDestroy(): void {
-    this.getPostsSubscription.unsubscribe()
+    this.getPostsSubscription.unsubscribe();
   }
 
   getPosts(): void {
     this.getPostsSubscription = this.postsService.getAll().subscribe((data: Post[]) => {
-      this.posts = data
-      this.isloaded = true
-    })
+      this.posts = data;
+      this.isloaded = true;
+    });
   }
 
 }

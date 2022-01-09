@@ -9,20 +9,20 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-  registerForm: FormGroup
+  registerForm: FormGroup;
 
   formErrors: any = {
     userName: '',
     email: '',
     password: '',
-  }
+  };
 
   constructor(
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.registerFormInit()
+    this.registerFormInit();
   }
 
   registerFormInit(): void {
@@ -30,20 +30,20 @@ export class RegisterComponent implements OnInit {
       userName: new FormControl(null, [Validators.required, Validators.minLength(3)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, Validators.pattern('')])
-    })
+    });
   }
 
   submitRegisterForm(): void {
-    if (this.registerForm.invalid) return
-    this.registerForm.disable()
+    if (this.registerForm.invalid) return;
+    this.registerForm.disable();
     console.log(this.registerForm.value);
     this.authService.register(this.registerForm.value).subscribe({
       next: (data) => console.log(data),
       error: (e) => {
         console.log(e);
-        this.registerForm.enable()
+        this.registerForm.enable();
       },
-    })
+    });
   }
 
 }

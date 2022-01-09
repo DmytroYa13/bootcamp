@@ -14,15 +14,15 @@ import { PostsService } from '../../services/posts.service';
 })
 export class PostFormComponent implements OnInit, OnDestroy {
 
-  postForm: FormGroup
-  postFormSubsrcription: Subscription
-  tags: Observable<Tag[]>
+  postForm: FormGroup;
+  postFormSubsrcription: Subscription;
+  tags: Observable<Tag[]>;
 
   formErrors: any = {
     title: '',
     subTitle: '',
     content: '',
-  }
+  };
 
   validationMessage: any = {
     title: {
@@ -39,7 +39,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
       required: 'Field must be filled',
       minlength: 'Must be more than 1 characters',
     }
-  }
+  };
 
   constructor(
     private tagsService: TagsService,
@@ -48,13 +48,13 @@ export class PostFormComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.postFormInit()
-    this.getTags()
-    this.postFormSubscribe()
+    this.postFormInit();
+    this.getTags();
+    this.postFormSubscribe();
   }
 
   ngOnDestroy(): void {
-    this.postFormSubsrcription.unsubscribe()
+    this.postFormSubsrcription.unsubscribe();
   }
 
   postFormInit(): void {
@@ -63,47 +63,47 @@ export class PostFormComponent implements OnInit, OnDestroy {
       subTitle: new FormControl(null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
       content: new FormControl(null, [Validators.required, Validators.minLength(2),]),
       tags: new FormControl([])
-    })
+    });
   }
 
   getTags(): void {
-    this.tags = this.tagsService.getAll()
+    this.tags = this.tagsService.getAll();
   }
 
   postFormSubscribe(): void {
     this.postFormSubsrcription = this.postForm.valueChanges.pipe(
       debounceTime(500)
-    ).subscribe(_ => this.onValueChanged())
+    ).subscribe(_ => this.onValueChanged());
   }
 
   onValueChanged(): void {
-    let form = this.postForm
-    if (!form || form.valid) return
+    let form = this.postForm;
+    if (!form || form.valid) return;
     Object.keys(this.formErrors).forEach((field: string) => {
-      this.formErrors[field] = ''
-      let control = form.get(field)
+      this.formErrors[field] = '';
+      let control = form.get(field);
       if ((control instanceof FormControl) && control.invalid) {
-        let message = this.validationMessage[field]
+        let message = this.validationMessage[field];
         Object.keys(control.errors!).forEach((key: string) => {
           if (message[key]) {
-            this.formErrors[field] += message[key] + " "
+            this.formErrors[field] += message[key] + " ";
           }
-        })
+        });
       }
-    })
+    });
   }
 
   submitPostForm(): void {
-    if (this.postForm.invalid) return
-    this.postForm.disable()
+    if (this.postForm.invalid) return;
+    this.postForm.disable();
     console.log(this.postForm.value);
     this.postsService.create(this.postForm.value).subscribe({
       next: () => this.router.navigate(['/']) ,
       error: (e) => {
         console.log(e);
-        this.postForm.enable()
+        this.postForm.enable();
       },
-    })
+    });
   }
 
 }

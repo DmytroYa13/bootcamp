@@ -20,7 +20,7 @@ const materialModules  = [
   MatSidenavModule,
   MatSelectModule,
   MatProgressSpinnerModule
-]
+];
 
 @NgModule({
   declarations: [

@@ -12,8 +12,8 @@ import { PostsService } from '../../services/posts.service';
 })
 export class PostPageComponent implements OnInit {
 
-  post: Post
-  isLoaded: boolean = false
+  post: Post;
+  isLoaded: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,18 +21,18 @@ export class PostPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getPost()
+    this.getPost();
   }
 
   getPost():void {
     this.route.params.pipe(
       switchMap((params: Params) => {
-        return this.postsService.getById(params['id'])
+        return this.postsService.getById(params['id']);
       })
     ).subscribe((data: Post) => {
-      this.post = data
-      this.isLoaded = true
-    })
+      this.post = data;
+      this.isLoaded = true;
+    });
   }
 
 }

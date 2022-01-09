@@ -11,14 +11,14 @@ import { TagsService } from 'src/app/tags/services/tags.service';
 })
 export class TagsListComponent implements OnInit {
 
-  tags: Observable<Tag[]>
+  tags: Observable<Tag[]>;
 
   constructor(
     private tagsService: TagsService
   ) { }
 
   ngOnInit(): void {
-    this.tags = this.tagsService.getAll()
+    this.tags = this.tagsService.getAll();
   }
 
   onSelect(tag: Tag): void{

@@ -9,23 +9,23 @@ import { LikesService } from '../../services/likes.service';
   styleUrls: ['./post-item.component.scss']
 })
 export class PostItemComponent {
-  @Input() post: Post
-  @Input() contentVisible: boolean = false
+  @Input() post: Post;
+  @Input() contentVisible: boolean = false;
 
   constructor(
     private likesService: LikesService
   ) { }
 
   changeLike(id: string) {
-    let likesStream$: Observable<Post>
+    let likesStream$: Observable<Post>;
     if (this.post.isLiked) {
-      likesStream$ = this.likesService.removeLike(id)
+      likesStream$ = this.likesService.removeLike(id);
     } else {
-      likesStream$ = this.likesService.addLike(id)
+      likesStream$ = this.likesService.addLike(id);
     }
     likesStream$.subscribe((post: Post) => {
-      this.post = post
-    })
+      this.post = post;
+    });
   }
 
 }
