@@ -11,7 +11,30 @@ const author = {
 module.exports.getAll = async function (req, res) {
   try {
 
-    const posts = await Post.aggregate([...postsStages]);
+    const { tag, offset = 0, limit = 20, authorId } = req.query
+
+    let matchQuery = {}
+
+    if(tag) {
+      matchQuery.tags = { $in: [tag] }
+    }
+    
+    if(authorId) {
+      matchQuery.author = converToObjectId(authorId)
+    }
+
+    const posts = await Post.aggregate([
+
+      { $match: matchQuery },
+
+      { $sort: { updatedAt: -1 }},
+
+      { $skip: +offset },
+
+      { $limit: +limit },
+      
+      ...postsStages
+    ]);
 
     res.status(200).json(posts);
   } catch (e) {
