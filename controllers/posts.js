@@ -24,16 +24,11 @@ module.exports.getAll = async function (req, res) {
     }
 
     const posts = await Post.aggregate([
-
       { $match: matchQuery },
-
       { $sort: { updatedAt: -1 }},
-
       { $skip: +offset },
-
       { $limit: +limit },
-      
-      ...postsStages
+      ...postStages
     ]);
 
     res.status(200).json(posts);
@@ -49,15 +44,21 @@ module.exports.getById = async function (req, res) {
   try {
     const post = await Post.aggregate([
       { $match: { _id: converToObjectId(id) } },
-      ...postsStages,
+      { $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comments",
+          pipeline: [
+            { $project: { postId: 0 } },
+            ...authorLookUpStage
+          ],
+        },
+      },
+      ...postStages,
     ]);
 
-    const comments = await Comment.find({ postId: id })
-    .populate("author", {firstName: 1, lastName: 1, imgSrc: 1, _id: 0})
-
     const [result] = post
-
-    result.comments = comments
 
     res.status(200).json(result);
   } catch (e) {
@@ -114,18 +115,17 @@ module.exports.remove = async function (req, res) {
 // like api (if like exists - remove, if not - add)
 module.exports.toggleLike = async function (req, res) {
   try {
-    const result = await Post.aggregate([
+    const post = await Post.aggregate([
       { $match: { _id: converToObjectId(req.params.id) } },
-
       addLikeFieldStage
     ]);
 
     // because aggregate returns list
-    const [post] = result;
+    const [result] = post;
 
-    if (post) {
+    if (result) {
       let toggleLikeOption;
-      if (post.isLiked) {
+      if (result.isLiked) {
         toggleLikeOption = { $pull: { usersLiked: author.id } };
       } else {
         toggleLikeOption = { $push: { usersLiked: author.id } };
@@ -152,6 +152,8 @@ module.exports.toggleLike = async function (req, res) {
   }
 };
 
+
+
 // creating ObjectId from string for $match stage
 const converToObjectId = (id) => mongoose.Types.ObjectId(id);
  
@@ -164,10 +166,9 @@ const addLikeFieldStage = {
   },
 }
 
-// common stages
-const postsStages = [
-  {
-    $lookup: {
+// stage to get author info
+const authorLookUpStage = [
+  { $lookup: {
       from: "authors",
       localField: "author",
       foreignField: "_id",
@@ -175,14 +176,14 @@ const postsStages = [
       pipeline: [{ $project: { firstName: 1, lastName: 1, imgSrc: 1, _id: 0 } }],
     },
   },
-
   { $unwind: "$author" },
+]
 
+// common stages
+const postStages = [
+  ...authorLookUpStage,
   { $addFields: { likes: { $size: "$usersLiked" } } },
-
   addLikeFieldStage,
-
   { $project: { usersLiked: 0 } },
 ];
-
 
