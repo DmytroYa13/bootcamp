@@ -1,5 +1,6 @@
 const errorHandler = require("../utils/errorHandler");
 const Post = require("../models/post");
+const Comment = require("../models/comment");
 const mongoose = require("mongoose");
 
 // TODO: delete after creating auth
@@ -9,6 +10,7 @@ const author = {
 
 module.exports.getAll = async function (req, res) {
   try {
+
     const posts = await Post.aggregate([...postsStages]);
 
     res.status(200).json(posts);
@@ -23,11 +25,18 @@ module.exports.getById = async function (req, res) {
 
   try {
     const post = await Post.aggregate([
-      { $match: { _id: getObjectId(id) } },
+      { $match: { _id: converToObjectId(id) } },
       ...postsStages,
     ]);
 
-    res.status(200).json(post);
+    const comments = await Comment.find({ postId: id })
+    .populate("author", {firstName: 1, lastName: 1, imgSrc: 1, _id: 0})
+
+    const [result] = post
+
+    result.comments = comments
+
+    res.status(200).json(result);
   } catch (e) {
     errorHandler(res, e);
   }
@@ -64,8 +73,12 @@ module.exports.update = async function (req, res) {
 };
 
 module.exports.remove = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    await Post.remove({ _id: req.params.id });
+    await Post.deleteOne({ _id: id });
+    await Comment.find({ postId: id }).deleteMany({});
     res.status(200).json({
       message: "Post deleted",
     });
@@ -79,7 +92,7 @@ module.exports.remove = async function (req, res) {
 module.exports.toggleLike = async function (req, res) {
   try {
     const result = await Post.aggregate([
-      { $match: { _id: getObjectId(req.params.id) } },
+      { $match: { _id: converToObjectId(req.params.id) } },
 
       addLikeFieldStage
     ]);
@@ -117,13 +130,13 @@ module.exports.toggleLike = async function (req, res) {
 };
 
 // creating ObjectId from string for $match stage
-const getObjectId = (id) => mongoose.Types.ObjectId(id);
+const converToObjectId = (id) => mongoose.Types.ObjectId(id);
  
 // stage to add "isLiked" field
 const addLikeFieldStage = {
   $addFields: {
     isLiked: {
-      $cond: [{ $in: [getObjectId(author.id), "$usersLiked"] }, true, false],
+      $cond: [{ $in: [converToObjectId(author.id), "$usersLiked"] }, true, false],
     },
   },
 }
