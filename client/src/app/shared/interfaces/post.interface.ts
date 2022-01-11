@@ -1,7 +1,7 @@
-import { User } from "./user.interface";
+import { Author } from "./author.interface";
 
 export interface Post {
-  author: User
+  author: Author
   title: string
   subTitle: string
   content: string

@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, Observable, Subscription } from 'rxjs';
+import { Loader } from 'src/app/loader/enums/loaders.enum';
+import { LoaderService } from 'src/app/loader/services/loader.service';
 
 import { Tag } from 'src/app/shared/interfaces/tags.interface';
 import { TagsService } from 'src/app/tags/services/tags.service';
@@ -17,6 +19,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
   postForm: FormGroup;
   postFormSubsrcription: Subscription;
   tags: Observable<Tag[]>;
+  isLoading: Observable<boolean>;
 
   formErrors: any = {
     title: '',
@@ -44,10 +47,12 @@ export class PostFormComponent implements OnInit, OnDestroy {
   constructor(
     private tagsService: TagsService,
     private postsService: PostsService,
-    private router: Router
+    private router: Router,
+    public loaderService: LoaderService
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = this.loaderService.getLoader(Loader.Tags);
     this.postFormInit();
     this.getTags();
     this.postFormSubscribe();
@@ -78,7 +83,9 @@ export class PostFormComponent implements OnInit, OnDestroy {
 
   onValueChanged(): void {
     let form = this.postForm;
-    if (!form || form.valid) return;
+    if (!form || form.valid) {
+      return;
+    }
     Object.keys(this.formErrors).forEach((field: string) => {
       this.formErrors[field] = '';
       let control = form.get(field);
@@ -94,11 +101,13 @@ export class PostFormComponent implements OnInit, OnDestroy {
   }
 
   submitPostForm(): void {
-    if (this.postForm.invalid) return;
+    if (this.postForm.invalid) {
+      return;
+    }
     this.postForm.disable();
     console.log(this.postForm.value);
     this.postsService.create(this.postForm.value).subscribe({
-      next: () => this.router.navigate(['/']) ,
+      next: () => this.router.navigate(['/']),
       error: (e) => {
         console.log(e);
         this.postForm.enable();

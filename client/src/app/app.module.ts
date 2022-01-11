@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { PostsModule } from './posts/posts.module';
 import { SharedModule } from './shared/shared-module.module';
 import { AuthModule } from './auth/auth.module';
+import { LoaderModule } from './loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
     AppRoutingModule,
     PostsModule,
     AuthModule,
+    LoaderModule,
     BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent],

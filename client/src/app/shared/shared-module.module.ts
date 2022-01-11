@@ -9,10 +9,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-// components
-import { LoaderComponent } from './components/loader/loader.component';
 
-const materialModules  = [
+const materialModules = [
   MatButtonModule,
   MatInputModule,
   MatCardModule,
@@ -23,10 +21,8 @@ const materialModules  = [
 ];
 
 @NgModule({
-  declarations: [
-    LoaderComponent
-  ],
+  declarations: [],
   imports: [...materialModules],
-  exports: [...materialModules, LoaderComponent]
+  exports: [...materialModules]
 })
 export class SharedModule { }

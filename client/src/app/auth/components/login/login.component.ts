@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
   }
 
   submitLoginForm(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      return;
+    }
     this.loginForm.disable();
     console.log(this.loginForm.value);
     this.authService.login(this.loginForm.value).subscribe({

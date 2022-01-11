@@ -10,13 +10,15 @@ import { LikesService } from '../../services/likes.service';
 })
 export class PostItemComponent {
   @Input() post: Post;
-  @Input() contentVisible: boolean = false;
+  @Input() isContentVisible: boolean = false;
+  isLikeChanging: boolean = false;
 
   constructor(
     private likesService: LikesService
   ) { }
 
   changeLike(id: string) {
+    this.isLikeChanging = true;
     let likesStream$: Observable<Post>;
     if (this.post.isLiked) {
       likesStream$ = this.likesService.removeLike(id);
@@ -25,6 +27,7 @@ export class PostItemComponent {
     }
     likesStream$.subscribe((post: Post) => {
       this.post = post;
+      this.isLikeChanging = false;
     });
   }
 

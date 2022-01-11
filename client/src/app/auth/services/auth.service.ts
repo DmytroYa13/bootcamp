@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/shared/interfaces/user.interface';
+import { Author } from 'src/app/shared/interfaces/author.interface';
 
 @Injectable()
 export class AuthService {
@@ -12,12 +12,12 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
-  login(user: User): Observable<any> { // TODO: change type after auth api
-    return this.http.post<any>(this.apiUrl, user);
+  login(author: Author): Observable<any> { // TODO: change type after auth api
+    return this.http.post<any>(this.apiUrl, author);
   }
 
-  register(user: User): Observable<any> {
-    return this.http.post<any>(this.apiUrl, user);
+  register(author: Author): Observable<any> {
+    return this.http.post<any>(this.apiUrl, author);
   }
 
 }

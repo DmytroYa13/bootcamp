@@ -34,7 +34,9 @@ export class RegisterComponent implements OnInit {
   }
 
   submitRegisterForm(): void {
-    if (this.registerForm.invalid) return;
+    if (this.registerForm.invalid) {
+      return;
+    }
     this.registerForm.disable();
     console.log(this.registerForm.value);
     this.authService.register(this.registerForm.value).subscribe({

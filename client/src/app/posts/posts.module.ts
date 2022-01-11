@@ -14,6 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PostsLayoutComponent } from './components/posts-layout/posts-layout.component';
 import { TagsModule } from '../tags/tags.module';
 import { LikesService } from './services/likes.service';
+import { LoaderModule } from '../loader/loader.module';
 
 const components = [PostsLayoutComponent, PostItemComponent, PostListComponent, PostFormComponent];
 
@@ -35,6 +36,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    LoaderModule,
     TagsModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,

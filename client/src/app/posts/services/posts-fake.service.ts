@@ -2,11 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Post } from 'src/app/shared/interfaces/post.interface';
-import { User } from 'src/app/shared/interfaces/user.interface';
+import { Author } from 'src/app/shared/interfaces/author.interface';
 import { PostsService } from './posts.service';
 
-const FAKE_USER: User = {
-  userName: 'Ivan Ivanov',
+const FAKE_USER: Author = {
+  firstName: 'Ivan',
+  lastName: 'Ivanov',
   email: 'test@test.com'
 };
 

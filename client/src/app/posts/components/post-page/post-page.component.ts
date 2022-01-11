@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
+import { Loader } from 'src/app/loader/enums/loaders.enum';
+import { LoaderService } from 'src/app/loader/services/loader.service';
 
 import { Post } from 'src/app/shared/interfaces/post.interface';
 import { PostsService } from '../../services/posts.service';
@@ -13,14 +15,16 @@ import { PostsService } from '../../services/posts.service';
 export class PostPageComponent implements OnInit {
 
   post: Post;
-  isLoaded: boolean = false;
+  isLoading: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
-    private postsService: PostsService
+    private postsService: PostsService,
+    public loaderService: LoaderService
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = this.loaderService.getLoader(Loader.OnePost);
     this.getPost();
   }
 
@@ -31,7 +35,6 @@ export class PostPageComponent implements OnInit {
       })
     ).subscribe((data: Post) => {
       this.post = data;
-      this.isLoaded = true;
     });
   }
 

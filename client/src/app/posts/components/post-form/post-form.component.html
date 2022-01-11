@@ -1,4 +1,4 @@
-<div *ngIf="tags | async as tags; else loading" class="blog-form">
+<div class="blog-form">
   <form [formGroup]="postForm" (ngSubmit)="submitPostForm()" class="blog-form__width-8">
 
     <div class="input-block">
@@ -32,18 +32,17 @@
     </div>
 
     <div class="input-block">
-      <mat-form-field appearance="fill">
+      <mat-form-field *ngIf="tags | async as tags" appearance="fill">
         <mat-label>Tags</mat-label>
         <mat-select formControlName="tags" multiple>
           <mat-option *ngFor="let tag of tags" [value]="tag.name">{{tag.name}}</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <app-loader class="tags-loader" *ngIf="isLoading | async"></app-loader>
+
     </div>
 
     <button type="submit" [disabled]="postForm.invalid || postForm.disabled" mat-raised-button color="primary">Save</button>
   </form>
 </div>
-
-<ng-template #loading>
-  <app-loader></app-loader>
-</ng-template>
