@@ -6,13 +6,15 @@ const user = {
   id: "61c4d3f28acc099a7794cbd6",
 };
 
+const authorPopulateOption = {
+  userName: 1,
+  imgSrc: 1,
+  _id: 0,
+}
+
 module.exports.getAll = async function (req, res) {
   try {
-    let posts = await Posts.find().sort({ createdAt: -1 }).populate("author", {
-      userName: 1,
-      imgSrc: 1,
-      _id: 0,
-    });
+    let posts = await Posts.find().sort({ createdAt: -1 }).populate("author", authorPopulateOption);
 
     let result = posts.map((post) => postResponseMapper(post, user.id));
 
@@ -24,11 +26,7 @@ module.exports.getAll = async function (req, res) {
 
 module.exports.getById = async function (req, res) {
   try {
-    const post = await Posts.findById(req.params.id).populate("author", {
-      userName: 1,
-      imgSrc: 1,
-      _id: 0,
-    });
+    const post = await Posts.findById(req.params.id).populate("author", authorPopulateOption);
     res.status(200).json(postResponseMapper(post, user.id));
   } catch (e) {
     errorHandler(res, e);
@@ -39,7 +37,7 @@ module.exports.create = async function (req, res) {
   try {
     const post = await new Posts({
       ...req.body,
-      author: "61c4d4912e280d52eaed3e1e", //TODO change after auth
+      author: "61c8eab53946fe2df8c4d65f", //TODO change after auth
     }).save();
 
     res.status(201).json(post);
@@ -77,18 +75,16 @@ module.exports.remove = async function (req, res) {
 
 module.exports.addLike = async function (req, res) {
   try {
-    const post = await Posts.findOne({ _id: req.params.id });
+    const post = await Posts.findOne({ _id: req.params.id })
 
     if (post) {
-      await Posts.updateOne(
+      const likedPost = await Posts.findByIdAndUpdate(
         { _id: req.params.id },
-        { $push: { usersLiked: user.id } }
-      );
+        { $push: { usersLiked: user.id } },
+        { new: true }
+      ).populate("author", authorPopulateOption);
 
-      res.status(200).json({
-        success: true,
-        message: "like added",
-      });
+      res.status(200).json(postResponseMapper(likedPost, user.id));
     } else {
       res.status(404).json({
         message: "Something went wrong",
@@ -99,20 +95,20 @@ module.exports.addLike = async function (req, res) {
   }
 };
 
+
 module.exports.removeLike = async function (req, res) {
   try {
     const post = await Posts.findOne({ _id: req.params.id });
 
     if (post) {
-      await Posts.updateOne(
+       const unlikedPost = await Posts.findByIdAndUpdate(
         { _id: req.params.id },
-        { $pull: { usersLiked: user.id } }
-      );
+        { $pull: { usersLiked: user.id } },
+        { new: true }
+      ).populate("author", authorPopulateOption);
 
-      res.status(200).json({
-        success: true,
-        message: "like removed",
-      });
+      res.status(200).json(postResponseMapper(unlikedPost, user.id));
+      
     } else {
       res.status(404).json({
         message: "Something went wrong",
