@@ -11,12 +11,8 @@ export class LikesService {
     private http: HttpClient
   ) { }
 
-  addLike(id: string): Observable<any> {
+  toggleLike(id: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${id}/like`, null).pipe(take(1));
-  }
-
-  removeLike(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}/like`).pipe(take(1));
   }
 
 }

@@ -1,23 +1,59 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Author } from 'src/app/shared/interfaces/author.interface';
+import { Token } from 'src/app/shared/interfaces/token.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
-  private apiUrl: string = '';
+  private apiUrl: string = '/api/auth';
+  private token: string = '';
+  private localStorageItemName: string = 'blog-token';
 
   constructor(
     private http: HttpClient
   ) { }
 
-  login(author: Author): Observable<any> { // TODO: change type after auth api
-    return this.http.post<any>(this.apiUrl, author);
+  register(author: Author): Observable<Author> {
+    return this.http.post<Author>(this.apiUrl, author);
   }
 
-  register(author: Author): Observable<any> {
-    return this.http.post<any>(this.apiUrl, author);
+  login(author: Author): Observable<Token> {
+    return this.http.post<Token>(`${this.apiUrl}/login`, author)
+      .pipe(
+        tap(({ token }) => {
+          localStorage.setItem(this.localStorageItemName, token);
+          this.setToken(token);
+        }
+        )
+      );
+  }
+
+  checkIsTokenExist() {
+    const token: string = localStorage.getItem(this.localStorageItemName)!;
+    if (token) {
+      this.setToken(token.toString());
+    }
+  }
+
+  setToken(token: string) {
+    this.token = token;
+  }
+
+  getToken() {
+    return this.token;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.token;
+  }
+
+  logOut() {
+    this.setToken('');
+    localStorage.clear();
   }
 
 }

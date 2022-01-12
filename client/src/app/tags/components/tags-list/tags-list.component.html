@@ -3,7 +3,7 @@
     <div *ngIf="tags | async as tags" class="tags__content">
       <h3>Popular Tags</h3>
       <ul *ngIf="tags.length; else emptyList" class="tags__list">
-        <li *ngFor="let tag of tags" class="tags__item" (click)="onSelect(tag)">{{tag.name}}
+        <li *ngFor="let tag of tags" class="tags__item" (click)="onSelect(tag)">{{tag._id}}
         </li>
       </ul>
       <ng-template #emptyList>

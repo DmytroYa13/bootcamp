@@ -10,10 +10,10 @@
 
       <div class="post__likes">
         <app-loader class="post__loader" diameter="20" *ngIf="isLikeChanging"></app-loader>
-        <button [disabled]="isLikeChanging" (click)="changeLike(post._id!)" mat-icon-button color="warn">
+        <button [disabled]="isLikeChanging" (click)="toggleLike(post._id!)" mat-icon-button color="warn">
           <mat-icon *ngIf="post.isLiked">favorite</mat-icon>
           <mat-icon *ngIf="!post.isLiked">favorite_border</mat-icon>
-          {{post.likesQuantity}}
+          {{post.likes}}
         </button>
       </div>
 

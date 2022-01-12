@@ -6,7 +6,7 @@ export interface Post {
   subTitle: string
   content: string
   tags?: string[]
-  likesQuantity?: number
+  likes?: number
   isLiked?: boolean
   createdAt?: Date;
   updatedAt?: Date;

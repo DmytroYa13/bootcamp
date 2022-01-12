@@ -12,8 +12,8 @@ const FAKE_USER: Author = {
 };
 
 const FAKE_POSTS: Post[] = [
-  { author: FAKE_USER, title: 'Natural language interface accessibility', subTitle: 'test', likesQuantity: 20, isLiked: false, content: 'lorem' },
-  { author: FAKE_USER, title: 'Accessibility of Remote Mettings', subTitle: 'test2', likesQuantity: 2, isLiked: true, content: 'lorem' },
+  { author: FAKE_USER, title: 'Natural language interface accessibility', subTitle: 'test', likes: 20, isLiked: false, content: 'lorem' },
+  { author: FAKE_USER, title: 'Accessibility of Remote Mettings', subTitle: 'test2', likes: 2, isLiked: true, content: 'lorem' },
 ];
 
 @Injectable()

@@ -1,5 +1,5 @@
-import { Component, Input} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { UpdatedLike } from 'src/app/shared/interfaces/updatedLike.interface';
 
 import { Post } from '../../../shared/interfaces/post.interface';
 import { LikesService } from '../../services/likes.service';
@@ -17,17 +17,14 @@ export class PostItemComponent {
     private likesService: LikesService
   ) { }
 
-  changeLike(id: string) {
+  toggleLike(id: string) {
     this.isLikeChanging = true;
-    let likesStream$: Observable<Post>;
-    if (this.post.isLiked) {
-      likesStream$ = this.likesService.removeLike(id);
-    } else {
-      likesStream$ = this.likesService.addLike(id);
-    }
-    likesStream$.subscribe((post: Post) => {
-      this.post = post;
-      this.isLikeChanging = false;
+    this.likesService.toggleLike(id).subscribe({
+      next: (updatedFields: UpdatedLike) => {
+        this.post = {...this.post, ...updatedFields};
+        this.isLikeChanging = false;
+      },
+      error: (e) => console.error(e),
     });
   }
 
