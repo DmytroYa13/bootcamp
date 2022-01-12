@@ -10,7 +10,7 @@
 # dependencies
 /node_modules
 
-config/env.dev.js
+# config/env.dev.js
 client/etc
 
 # profiling files

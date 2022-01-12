@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const corc = require("cors");
 const morgan = require("morgan");
+const passport = require('passport')
 
 const apiRouter = require("./routes/router")
 const env = require("./config/env")
@@ -13,6 +14,9 @@ const app = express();
 mongoose.connect(env.MONGO_URI)
 .then(() => console.log('DB connected'))
 .catch(error => console.log(error))
+
+app.use(passport.initialize())
+require('./middleware/passport')(passport);
 
 app.use(morgan("dev"));
 app.use(bodyParser.json());

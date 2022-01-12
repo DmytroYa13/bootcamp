@@ -3,13 +3,13 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const mongoose = require("mongoose");
 
-// TODO: delete after creating auth
-const author = {
-  id: "61dad3027e81323ad0748a3d",
-};
-
 module.exports.getAll = async function (req, res) {
+
   try {
+
+    const userId = req.user ? converToObjectId(req.user.authorId) : ""
+
+    console.log(req.user);
 
     const { tag, offset = 0, limit = 20, authorId } = req.query
 
@@ -18,7 +18,7 @@ module.exports.getAll = async function (req, res) {
     if(tag) {
       matchQuery.tags = { $in: [tag] }
     }
-    
+
     if(authorId) {
       matchQuery.author = converToObjectId(authorId)
     }
@@ -28,6 +28,9 @@ module.exports.getAll = async function (req, res) {
       { $sort: { updatedAt: -1 }},
       { $skip: +offset },
       { $limit: +limit },
+
+      addLikeFieldStage(userId),
+
       ...postStages
     ]);
 
@@ -70,7 +73,7 @@ module.exports.create = async function (req, res) {
   try {
     const post = await new Post({
       ...req.body,
-      author: author.id, //TODO change after auth
+      author: req.user._id,
     }).save();
 
     res.status(201).json(post);
@@ -114,10 +117,11 @@ module.exports.remove = async function (req, res) {
 
 // like api (if like exists - remove, if not - add)
 module.exports.toggleLike = async function (req, res) {
+
   try {
     const post = await Post.aggregate([
       { $match: { _id: converToObjectId(req.params.id) } },
-      addLikeFieldStage
+      addLikeFieldStage(req.user._id)
     ]);
 
     // because aggregate returns list
@@ -126,9 +130,9 @@ module.exports.toggleLike = async function (req, res) {
     if (result) {
       let toggleLikeOption;
       if (result.isLiked) {
-        toggleLikeOption = { $pull: { usersLiked: author.id } };
+        toggleLikeOption = { $pull: { usersLiked: req.user._id } };
       } else {
-        toggleLikeOption = { $push: { usersLiked: author.id } };
+        toggleLikeOption = { $push: { usersLiked: req.user._id } };
       }
       const toggledLikePost = await Post.findByIdAndUpdate(
         { _id: req.params.id },
@@ -139,7 +143,7 @@ module.exports.toggleLike = async function (req, res) {
       //sends only updated fields
       const updatedFields = {
         likes: toggledLikePost.usersLiked.length,
-        isLiked: toggledLikePost.usersLiked.includes(author.id),
+        isLiked: toggledLikePost.usersLiked.includes(req.user._id),
       };
       res.status(200).json(updatedFields);
     } else {
@@ -158,13 +162,13 @@ module.exports.toggleLike = async function (req, res) {
 const converToObjectId = (id) => mongoose.Types.ObjectId(id);
  
 // stage to add "isLiked" field
-const addLikeFieldStage = {
+const addLikeFieldStage = (id) => ({
   $addFields: {
     isLiked: {
-      $cond: [{ $in: [converToObjectId(author.id), "$usersLiked"] }, true, false],
+      $cond: [{ $in: [ id, "$usersLiked"] }, true, false],
     },
   },
-}
+})
 
 // stage to get author info
 const authorLookUpStage = [
@@ -183,7 +187,6 @@ const authorLookUpStage = [
 const postStages = [
   ...authorLookUpStage,
   { $addFields: { likes: { $size: "$usersLiked" } } },
-  addLikeFieldStage,
   { $project: { usersLiked: 0 } },
 ];
 
