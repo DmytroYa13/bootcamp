@@ -1,15 +1,5 @@
-.post-form {
-  margin: 20px 0;
+@import '_form.scss';
 
-  .input-block {
-    min-height: 80px;
-  }
-
-  .post-form__input, mat-form-field {
-    width: 60%;
-  }
-
-  button[type="submit"]{
-    margin: 10px 0;
-  }
+.tags-loader {
+  display: inline-block;
 }

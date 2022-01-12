@@ -1,0 +1,27 @@
+.blog-form {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+
+  &__width-8 {
+    width: 90%;
+    max-width: 800px;
+  }
+
+  &__width-5 {
+    width: 90%;
+    max-width: 500px;
+  }
+
+  .input-block {
+    min-height: 80px;
+  }
+
+  .blog-form__input, mat-form-field {
+    width: 100%;
+  }
+
+  button[type="submit"]{
+    margin: 10px 0;
+  }
+}

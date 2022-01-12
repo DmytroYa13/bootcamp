@@ -2,24 +2,34 @@
   <mat-card class="post">
     <mat-card-header>
       <div mat-card-avatar class="post__author-img">
-        <img [src]="post.author.imgSrc ? post.author.imgSrc :  '../../assets/no-avatar.svg'"
-          [alt]="post.author"
-          [title]="post.author">
+        <img [src]="post.author?.imgSrc || '../../assets/no-avatar.svg'" [alt]="post.author?.firstName"
+          [title]="post.author?.firstName">
       </div>
-      <mat-card-title>{{post.author.userName}}</mat-card-title>
+      <mat-card-title>{{post.author?.firstName}} {{post.author?.lastName}}</mat-card-title>
       <mat-card-subtitle>{{post.createdAt | date:"MMMM d, YYYY"}}</mat-card-subtitle>
 
-      <button (click)="changeLike(post)" mat-icon-button color="warn">
-        <mat-icon *ngIf="post.isLiked">favorite</mat-icon>
-        <mat-icon *ngIf="!post.isLiked">favorite_border</mat-icon>
-        {{post.likesQuantity}}
-      </button>
+      <div class="post__likes">
+        <app-loader class="post__loader" diameter="20" *ngIf="isLikeChanging"></app-loader>
+        <button [disabled]="isLikeChanging" (click)="changeLike(post._id!)" mat-icon-button color="warn">
+          <mat-icon *ngIf="post.isLiked">favorite</mat-icon>
+          <mat-icon *ngIf="!post.isLiked">favorite_border</mat-icon>
+          {{post.likesQuantity}}
+        </button>
+      </div>
 
     </mat-card-header>
     <mat-card-content>
       <h2 class="post__title">{{post.title}}</h2>
-      <p class="post__content">{{post.content}}</p>
-      <div class="post__link"><span>Read more...</span></div>
+      <p class="post__content">{{post.subTitle}}</p>
+
+      <div *ngIf="isContentVisible; else hiddenContent">
+        <div>{{post.content}}</div>
+      </div>
+
+      <ng-template #hiddenContent>
+        <span class="post__link" [routerLink]="['/post', post._id]">Read more...</span>
+      </ng-template>
+
     </mat-card-content>
   </mat-card>
 </article>

@@ -3,6 +3,12 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const mongoose = require("mongoose");
 
+const authorPopulateOption = {
+  userName: 1,
+  imgSrc: 1,
+  _id: 0,
+}
+
 module.exports.getAll = async function (req, res) {
 
   try {
@@ -68,6 +74,7 @@ module.exports.getById = async function (req, res) {
     errorHandler(res, e);
   }
 };
+
 
 module.exports.create = async function (req, res) {
   try {
@@ -146,6 +153,7 @@ module.exports.toggleLike = async function (req, res) {
         isLiked: toggledLikePost.usersLiked.includes(req.user._id),
       };
       res.status(200).json(updatedFields);
+
     } else {
       res.status(404).json({
         message: "Something went wrong",
@@ -155,7 +163,6 @@ module.exports.toggleLike = async function (req, res) {
     errorHandler(res, e);
   }
 };
-
 
 
 // creating ObjectId from string for $match stage
@@ -189,4 +196,5 @@ const postStages = [
   { $addFields: { likes: { $size: "$usersLiked" } } },
   { $project: { usersLiked: 0 } },
 ];
+
 

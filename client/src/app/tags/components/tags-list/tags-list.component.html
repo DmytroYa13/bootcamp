@@ -1,0 +1,17 @@
+<aside class="tags">
+  <mat-card>
+    <div *ngIf="tags | async as tags" class="tags__content">
+      <h3>Popular Tags</h3>
+      <ul *ngIf="tags.length; else emptyList" class="tags__list">
+        <li *ngFor="let tag of tags" class="tags__item" (click)="onSelect(tag)">{{tag.name}}
+        </li>
+      </ul>
+      <ng-template #emptyList>
+        <div class="alert alert-warning">No tags are here ... yet</div>
+      </ng-template>
+    </div>
+
+    <app-loader *ngIf="isLoading | async"></app-loader>
+
+  </mat-card>
+</aside>
