@@ -16,8 +16,8 @@
           {{post.likes}}
         </button>
       </div>
-
     </mat-card-header>
+
     <mat-card-content>
       <h2 class="post__title">{{post.title}}</h2>
       <p class="post__content">{{post.subTitle}}</p>
@@ -29,7 +29,11 @@
       <ng-template #hiddenContent>
         <span class="post__link" [routerLink]="['/post', post._id]">Read more...</span>
       </ng-template>
-
     </mat-card-content>
+
+    <mat-card-actions>
+      <app-tags-for-post [tags]="post.tags!"></app-tags-for-post>
+    </mat-card-actions>
+
   </mat-card>
 </article>

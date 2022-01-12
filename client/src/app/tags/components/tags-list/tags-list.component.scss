@@ -7,25 +7,8 @@
     margin-left: 20px;
   }
 
-  &__content {
-    padding: 10px;
-  }
-
-  &__list {
-    list-style: none;
-    margin: -5px;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  &__item {
-    padding: 6px;
-    background-color: $mainColor;
-    margin: 5px;
-    color: white;
-    font-weight: 500;
-    border-radius: 5px;
+  mat-chip {
     cursor: pointer;
   }
+
 }
