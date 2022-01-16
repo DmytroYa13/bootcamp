@@ -35,11 +35,11 @@
       <mat-form-field *ngIf="tags | async as tags" appearance="fill">
         <mat-label>Tags</mat-label>
         <mat-select formControlName="tags" multiple>
-          <mat-option *ngFor="let tag of tags" [value]="tag._id">{{tag._id}}</mat-option>
+          <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <app-loader class="tags-loader" *ngIf="isLoading | async"></app-loader>
+      <app-loader class="tags-loader" *ngIf="isLoading$ | async"></app-loader>
 
     </div>
 

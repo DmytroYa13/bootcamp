@@ -1,3 +1,5 @@
-export interface Tag {
-  _id?: string
+export interface TagData {
+  _id: string
 }
+
+export type Tag = string;

@@ -4,7 +4,9 @@
       <h3>Popular Tags</h3>
 
       <mat-chip-list *ngIf="tags.length; else emptyList">
-        <mat-chip *ngFor="let tag of tags" (click)="onSelect(tag)">{{tag._id}}</mat-chip>
+
+        <app-tags [tags]="tags"></app-tags>
+
       </mat-chip-list>
 
       <ng-template #emptyList>
@@ -12,7 +14,7 @@
       </ng-template>
     </div>
 
-    <app-loader *ngIf="isLoading | async"></app-loader>
+    <app-loader *ngIf="isLoading$ | async"></app-loader>
 
   </mat-card>
 </aside>

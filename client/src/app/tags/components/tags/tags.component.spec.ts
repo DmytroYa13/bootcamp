@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TagsForPostComponent } from './tags-for-post.component';
+import { TagsComponent } from './tags.component';
 
 describe('TagsForPostComponent', () => {
-  let component: TagsForPostComponent;
-  let fixture: ComponentFixture<TagsForPostComponent>;
+  let component: TagsComponent;
+  let fixture: ComponentFixture<TagsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TagsForPostComponent ]
+      declarations: [ TagsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TagsForPostComponent);
+    fixture = TestBed.createComponent(TagsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

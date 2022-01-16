@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, Observable, Subscription } from 'rxjs';
+
 import { Loader } from 'src/app/loader/enums/loaders.enum';
 import { LoaderService } from 'src/app/loader/services/loader.service';
-
 import { Tag } from 'src/app/shared/interfaces/tags.interface';
 import { TagsService } from 'src/app/tags/services/tags.service';
 import { PostsService } from '../../services/posts.service';
@@ -19,7 +19,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
   postForm: FormGroup;
   postFormSubsrcription: Subscription;
   tags: Observable<Tag[]>;
-  isLoading: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   formErrors: any = {
     title: '',
@@ -52,7 +52,7 @@ export class PostFormComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.isLoading = this.loaderService.getLoader(Loader.Tags);
+    this.isLoading$ = this.loaderService.getLoader(Loader.Tags);
     this.postFormInit();
     this.getTags();
     this.postFormSubscribe();

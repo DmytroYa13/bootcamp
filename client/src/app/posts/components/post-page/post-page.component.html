@@ -2,4 +2,4 @@
   <app-post-item [post]="post" [isContentVisible]="true" ></app-post-item>
 </ng-container>
 
-<app-loader *ngIf="isLoading | async"></app-loader>
+<app-loader *ngIf="isLoading$ | async"></app-loader>
