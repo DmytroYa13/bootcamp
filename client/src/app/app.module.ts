@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { LoaderModule } from './loader/loader.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/components/interceptors/token.interceptor';
+import { CabinetModule } from './cabinet/cabinet.module';
 
 const INTERCEPTOR: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -30,6 +31,7 @@ const INTERCEPTOR: Provider = {
     PostsModule,
     AuthModule,
     LoaderModule,
+    CabinetModule,
     BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent],

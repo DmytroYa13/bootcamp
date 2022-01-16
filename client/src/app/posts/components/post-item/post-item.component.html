@@ -2,7 +2,7 @@
   <mat-card class="post">
     <mat-card-header>
       <div mat-card-avatar class="post__author-img">
-        <img [src]="post.author?.imgSrc || '../../assets/no-avatar.svg'" [alt]="post.author?.firstName"
+        <img [src]="post.author?.imgSrc || authorDefaultAvatar" [alt]="post.author?.firstName"
           [title]="post.author?.firstName">
       </div>
       <mat-card-title>{{post.author?.firstName}} {{post.author?.lastName}}</mat-card-title>

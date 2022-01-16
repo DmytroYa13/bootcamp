@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
+import { AUTHOR_DEFAULT_AVATAR_TOKEN } from 'src/app/shared/InjectionTokens/author-default-avatar';
 import { UpdatedLike } from 'src/app/shared/interfaces/updatedLike.interface';
 
 import { Post } from '../../../shared/interfaces/post.interface';
@@ -14,7 +15,9 @@ export class PostItemComponent {
   isLikeChanging: boolean = false;
 
   constructor(
-    private likesService: LikesService
+    private likesService: LikesService,
+    @Inject(AUTHOR_DEFAULT_AVATAR_TOKEN)
+    public authorDefaultAvatar: string,
   ) { }
 
   toggleLike(id: string) {
