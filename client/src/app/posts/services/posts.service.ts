@@ -1,14 +1,20 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from 'src/app/shared/InjectionTokens/base-url';
 import { Post } from 'src/app/shared/interfaces/post.interface';
 
 @Injectable()
 export class PostsService {
 
-  private apiUrl: string = '/api/posts';
+  private apiUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    @Optional() @Inject(API_BASE_URL) apiUrl?: string
+  ) {
+    this.apiUrl = apiUrl ? `${apiUrl}/posts` : '';
+  }
 
   getAll(): Observable<Post[]> {
     return this.http.get<Post[]>(this.apiUrl);

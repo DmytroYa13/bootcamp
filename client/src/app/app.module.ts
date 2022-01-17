@@ -12,6 +12,8 @@ import { LoaderModule } from './loader/loader.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './auth/components/interceptors/token.interceptor';
 import { CabinetModule } from './cabinet/cabinet.module';
+import { environment } from 'src/environments/environment';
+import { API_BASE_URL } from './shared/InjectionTokens/base-url';
 
 const INTERCEPTOR: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -35,6 +37,12 @@ const INTERCEPTOR: Provider = {
     BrowserAnimationsModule,
   ],
   bootstrap: [AppComponent],
-  providers: [INTERCEPTOR]
+  providers: [
+    INTERCEPTOR,
+    {
+      provide: API_BASE_URL,
+      useValue: environment.apiRoot
+    },
+  ]
 })
 export class AppModule { }

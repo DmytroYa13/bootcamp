@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { Observable, tap } from 'rxjs';
+import { API_BASE_URL } from 'src/app/shared/InjectionTokens/base-url';
 import { Author } from 'src/app/shared/interfaces/author.interface';
 import { Token } from 'src/app/shared/interfaces/token.interface';
 
@@ -9,13 +10,17 @@ import { Token } from 'src/app/shared/interfaces/token.interface';
 })
 export class AuthService {
 
-  private apiUrl: string = '/api/auth';
+  private apiUrl: string;
+
   private token: string = '';
   private localStorageItemName: string = 'blog-token';
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    @Optional() @Inject(API_BASE_URL) apiUrl?: string
+  ) {
+    this.apiUrl = apiUrl ? `${apiUrl}/auth` : '';
+  }
 
   register(author: Author): Observable<Author> {
     return this.http.post<Author>(`${this.apiUrl}/register`, author);
