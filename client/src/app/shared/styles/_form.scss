@@ -1,4 +1,4 @@
-.blog-form {
+.form {
   margin: 20px 0;
   display: flex;
   justify-content: center;
@@ -13,15 +13,22 @@
     max-width: 500px;
   }
 
-  .input-block {
+  &__input-block {
     min-height: 80px;
   }
 
-  .blog-form__input, mat-form-field {
+  mat-form-field {
     width: 100%;
   }
 
-  button[type="submit"]{
+  &__submit-block {
     margin: 10px 0;
+    display: flex;
+    align-items: center;
   }
+
+  button[type="submit"]{
+    margin-right: 10px;
+  }
+
 }

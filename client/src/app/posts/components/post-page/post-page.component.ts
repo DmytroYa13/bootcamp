@@ -20,7 +20,7 @@ export class PostPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private postsService: PostsService,
-    public loaderService: LoaderService
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit(): void {

@@ -18,7 +18,7 @@ export class PopularTagsComponent implements OnInit {
 
   constructor(
     private tagsService: TagsService,
-    public loaderService: LoaderService
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit(): void {

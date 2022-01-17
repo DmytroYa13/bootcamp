@@ -1,28 +1,32 @@
-<div class="blog-form">
-  <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="blog-form__width-5">
+<div class="form">
+  <form [formGroup]="form" (ngSubmit)="submitForm()" class="form__width-5">
 
     <h2>Login</h2>
 
-    <div class="input-block">
-      <mat-form-field class="auth-form__input" appearance="fill">
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
-
-        <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
-
         <input matInput type="email" formControlName="email">
+
+        <mat-error *ngIf="formValidationErrors['email']">{{formValidationErrors['email']}}</mat-error>
+
       </mat-form-field>
     </div>
 
-    <div class="input-block">
-      <mat-form-field class="auth-form__input" appearance="fill">
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-
-        <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
-
         <input matInput type="password" formControlName="password">
+
+        <mat-error *ngIf="formValidationErrors['password']">{{formValidationErrors['password']}}</mat-error>
+
       </mat-form-field>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid || loginForm.disabled" mat-raised-button color="primary">Login</button>
+    <div class="form__submit-block">
+      <button type="submit" [disabled]="form.invalid || form.disabled" mat-raised-button color="primary">Login</button>
+      <app-loader *ngIf="form.disabled" diameter="20"></app-loader>
+    </div>
+
   </form>
 </div>

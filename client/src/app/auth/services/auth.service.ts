@@ -18,7 +18,7 @@ export class AuthService {
   ) { }
 
   register(author: Author): Observable<Author> {
-    return this.http.post<Author>(this.apiUrl, author);
+    return this.http.post<Author>(`${this.apiUrl}/register`, author);
   }
 
   login(author: Author): Observable<Token> {

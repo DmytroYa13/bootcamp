@@ -19,7 +19,7 @@ export class PostListComponent implements OnInit {
 
   constructor(
     private postsService: PostsService,
-    public loaderService: LoaderService
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit(): void {
