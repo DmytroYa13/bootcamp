@@ -3,12 +3,6 @@ const Post = require("../models/post");
 const Comment = require("../models/comment");
 const mongoose = require("mongoose");
 
-const authorPopulateOption = {
-  userName: 1,
-  imgSrc: 1,
-  _id: 0,
-}
-
 module.exports.getAll = async function (req, res) {
 
   try {

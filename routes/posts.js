@@ -1,5 +1,5 @@
 const express = require("express");
-const passport = require('passport')
+const passport = require("passport")
 
 const controller = require("../controllers/posts");
 const getAuthorizedUser = require('../middleware/getAuthorizedUser');
