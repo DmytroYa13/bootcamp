@@ -4,8 +4,23 @@
   <nav class="header__nav">
     <ul class="header__list">
       <li [routerLink]="['/']" class="header__list-item"><button mat-button>Home</button></li>
-      <li [routerLink]="['/post', 'new']" class="header__list-item"><button mat-button>New artical</button></li>
-      <li [routerLink]="['/cabinet']" class="header__list-item"><button mat-button>User name</button></li>
+
+      <ng-container *ngIf="author$ | async as author; else notAuthorized">
+        <li [routerLink]="['/post', 'new']" class="header__list-item"><button mat-button>New artical</button></li>
+        <li [routerLink]="['/cabinet']" class="header__list-item">
+          <span class="header__author-name">{{author.firstName}}</span>
+          <img class="header__author-img" [src]="author?.imgSrc || authorDefaultAvatar" [alt]="author.firstName">
+        </li>
+      </ng-container>
+
+      <ng-template #notAuthorized>
+        <li class="header__list-item">
+          <button [routerLink]="['/login']" mat-button>Login</button> |
+          <button [routerLink]="['/register']" mat-button>Register</button>
+        </li>
+      </ng-template>
+
+
     </ul>
   </nav>
 </header>

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AUTHOR_DEFAULT_AVATAR_TOKEN } from 'src/app/shared/InjectionTokens/author-default-avatar';
-import { Author } from 'src/app/shared/interfaces/author.interface';
+import { CurrentAuthor } from 'src/app/shared/interfaces/current-author.type';
 import { AuthorService } from '../../services/author.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AuthorService } from '../../services/author.service';
 })
 export class CabinetComponent implements OnInit {
 
-  author$: Observable<Author>;
+  author$: Observable<CurrentAuthor>;
 
   constructor(
     private authorService: AuthorService,

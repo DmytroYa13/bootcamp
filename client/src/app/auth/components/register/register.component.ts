@@ -45,7 +45,7 @@ export class RegisterComponent extends Form implements OnInit {
     const data: Author = this.form.value;
     this.form.disable();
     this.authService.register(data).subscribe({
-      next: (_) => {
+      next: (data) => {
         this.router.navigate(['/login'], { queryParams: { email: data.email } });
       },
       error: (e) => {

@@ -2,6 +2,9 @@
 
 .tags {
 
+  position: sticky;
+  top: 20px;
+
   mat-card{
     background-color: $cardBackColor;
     margin-left: 20px;

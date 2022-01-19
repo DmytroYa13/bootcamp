@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthorService } from 'src/app/cabinet/services/author.service';
 
 import { Form } from 'src/app/shared/classes/formValidation';
 import { AuthService } from '../../services/auth.service';
@@ -14,7 +15,9 @@ export class LoginComponent extends Form implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private authorService: AuthorService,
     private route: ActivatedRoute,
+    private router: Router
     ) {
       super();
      }
@@ -53,7 +56,10 @@ export class LoginComponent extends Form implements OnInit {
     this.form.disable();
     console.log(this.form.value);
     this.authService.login(this.form.value).subscribe({
-      next: (data) => console.log(data),
+      next: (data) => {
+        this.router.navigate(['/']);
+        this.authorService.getAuthorData();
+      },
       error: (e) => {
         console.log(e);
         this.form.enable();

@@ -1,20 +1,21 @@
 <!-- TODO: change after author api -->
 <app-comment-item
-  [comment]="comments[0]"
-  [template]="CommentForm">
+*ngIf="commentForm"
+  [comment]="commentForm"
+  [template]="formTemplate">
 </app-comment-item>
 
 <app-comment-item
   *ngFor="let comment of comments | sort:'updatedAt' "
   [comment]="comment"
-  [template]="CommentContent">
+  [template]="contentTemplate">
 </app-comment-item>
 
-<ng-template #CommentContent let-content>
+<ng-template #contentTemplate let-content>
   <div>{{content}}</div>
 </ng-template>
 
-<ng-template #CommentForm>
+<ng-template #formTemplate>
     <form [formGroup]="form" (ngSubmit)="submitForm()">
       <div class="form__input-block">
         <mat-form-field>

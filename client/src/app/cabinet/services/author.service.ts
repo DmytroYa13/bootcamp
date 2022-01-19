@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, Optional } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { API_BASE_URL } from 'src/app/shared/InjectionTokens/base-url';
 import { Author } from 'src/app/shared/interfaces/author.interface';
+import { CurrentAuthor } from 'src/app/shared/interfaces/current-author.type';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { Author } from 'src/app/shared/interfaces/author.interface';
 export class AuthorService {
 
   private apiUrl: string;
-  private author$ = new Subject<Author>();
+  private author$ = new BehaviorSubject<CurrentAuthor>(null);
 
   constructor(
     private http: HttpClient,
@@ -20,16 +21,11 @@ export class AuthorService {
   }
 
   getAuthorData(): void {
-    this.http.get<Author>(`${this.apiUrl}`).subscribe({
-      next: (author) => this.author$.next(author),
-      error: (err) => console.log(err)
-    });
+    this.http.get<Author>(`${this.apiUrl}`).subscribe(author => this.author$.next(author));
   }
 
-  getAuthor(): Observable<Author> {
+  getAuthor(): Observable<CurrentAuthor> {
     return this.author$.asObservable();
   }
-
-
 
 }
