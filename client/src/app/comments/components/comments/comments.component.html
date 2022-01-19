@@ -1,0 +1,33 @@
+<!-- TODO: change after author api -->
+<app-comment-item
+  [comment]="comments[0]"
+  [template]="CommentForm">
+</app-comment-item>
+
+<app-comment-item
+  *ngFor="let comment of comments | sort:'updatedAt' "
+  [comment]="comment"
+  [template]="CommentContent">
+</app-comment-item>
+
+<ng-template #CommentContent let-content>
+  <div>{{content}}</div>
+</ng-template>
+
+<ng-template #CommentForm>
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div class="form__input-block">
+        <mat-form-field>
+          <mat-label>Comment</mat-label>
+          <textarea matInput rows="3" formControlName="comment"></textarea>
+          <mat-error *ngIf="formValidationErrors['comment']">{{formValidationErrors['comment']}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form__submit-block form__submit-block_right">
+        <app-loader *ngIf="form.disabled" diameter="20"></app-loader>
+        <button type="submit" [disabled]="form.invalid || form.disabled" mat-raised-button color="primary">Send</button>
+      </div>
+
+    </form>
+</ng-template>

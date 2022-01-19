@@ -1,0 +1,18 @@
+<div *ngIf="comment" class="comment">
+  <div class="comment__body">
+
+    <div class="comment__author">
+      <div class="comment__author-img">
+        <img [src]="comment.author.imgSrc || authorDefaultAvatar" [alt]="comment.author.firstName"
+          [title]="comment.author.firstName">
+      </div>
+      <div class="comment__author-name">{{comment.author.firstName}} {{comment.author.lastName}}</div>
+    </div>
+
+    <mat-card class="comment__card">
+      <ng-container *ngTemplateOutlet="template; context: {$implicit: comment.content}"></ng-container>
+      <div class="comment__date">{{comment.updatedAt | date:"MM.d.YYYY, H:mm"}}</div>
+    </mat-card>
+  </div>
+</div>
+

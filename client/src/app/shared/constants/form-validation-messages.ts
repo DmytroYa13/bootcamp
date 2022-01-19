@@ -8,6 +8,7 @@ export enum ControlName {
   password = 'password',
   firstName = 'firstName',
   lastName = 'lastName',
+  comment = 'comment',
 }
 
 export const validationMessages: ValidationMessages = {
@@ -47,6 +48,12 @@ export const validationMessages: ValidationMessages = {
   [ControlName.lastName]: {
     required: 'Field must be filled',
     minlength: 'Must be more than 2 characters',
+  },
+
+  [ControlName.comment]: {
+    required: 'Field must be filled',
+    minlength: 'Must be more than 2 characters',
+    maxlength: 'Must be less than 300 characters',
   },
 
 };

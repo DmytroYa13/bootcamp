@@ -15,6 +15,7 @@ import { PostsLayoutComponent } from './components/posts-layout/posts-layout.com
 import { TagsModule } from '../tags/tags.module';
 import { LikesService } from './services/likes.service';
 import { LoaderModule } from '../loader/loader.module';
+import { CommentsModule } from '../comments/comments.module';
 
 const components = [PostsLayoutComponent, PostItemComponent, PostListComponent, PostFormComponent];
 
@@ -38,6 +39,7 @@ const routes: Routes = [
     SharedModule,
     LoaderModule,
     TagsModule,
+    CommentsModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     HttpClientModule
