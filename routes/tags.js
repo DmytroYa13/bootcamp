@@ -1,5 +1,5 @@
-const passport = require('passport')
 const express = require("express");
+const passport = require("passport")
 const controller = require("../controllers/tags");
 
 const router = express.Router();
