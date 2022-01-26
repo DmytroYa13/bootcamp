@@ -28,4 +28,13 @@ export class AuthorService {
     return this.author$.asObservable();
   }
 
+  update(id: string, image: File): Observable<CurrentAuthor> { // TODO: change after adding imh on backEnd
+    const formData = new FormData();
+    if (image) {
+      formData.append('image', image, image.name);
+    }
+
+    return this.http.patch<CurrentAuthor>(`${this.apiUrl}/${id}`, formData);
+  }
+
 }

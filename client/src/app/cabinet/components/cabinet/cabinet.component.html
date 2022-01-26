@@ -2,7 +2,8 @@
 
   <div *ngIf="author$ | async as author" class="author__info">
     <div class="author__img-block">
-      <img [src]="author?.imgSrc || authorDefaultAvatar" src="../../../../assets/no-avatar.svg">
+      <img *ngIf="!croppedImage" [src]="author?.imgSrc || authorDefaultAvatar" src="../../../../assets/no-avatar.svg">
+      <img *ngIf="croppedImage"  [src]="croppedImage">
     </div>
 
     <div class="author__name-block">
@@ -14,3 +15,16 @@
   </div>
 
 </div>
+
+<input type="file" (change)="fileChangeEvent($event)" />
+
+<image-cropper [ngStyle]="{width: '300px'}"
+[roundCropper]="true"
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>

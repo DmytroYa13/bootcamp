@@ -5,6 +5,7 @@ import { SharedModule } from '../shared/shared-module.module';
 import { LoaderModule } from '../loader/loader.module';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 const routes: Routes = [
 
@@ -20,6 +21,7 @@ const routes: Routes = [
     CommonModule,
     SharedModule,
     LoaderModule,
+    ImageCropperModule,
     RouterModule.forChild(routes),
     HttpClientModule
   ]
