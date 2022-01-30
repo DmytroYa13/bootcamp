@@ -24,7 +24,7 @@ describe('AuthorProfileService', () => {
       ],
       providers: [
         AuthorService,
-        { provide: API_BASE_URL, useValue: 'http://localhost:4200/api' }
+        { provide: API_BASE_URL, useValue: 'http://localhost:4200/api5' }
       ]
     });
     authorService = TestBed.inject(AuthorService);
