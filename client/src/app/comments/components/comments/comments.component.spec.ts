@@ -18,7 +18,7 @@ describe('CommentsComponent', () => {
   let component: CommentsComponent;
   let fixture: ComponentFixture<CommentsComponent>;
 
-  const fakeAuthorService = jasmine.createSpyObj("AuthorService", ['create']);
+  const fakeAuthorService = jasmine.createSpyObj("AuthorService", ['getAuthor']);
   const fakeCommentService = jasmine.createSpyObj("CommentService", { 'create': of({ data: 'response' }) });
 
 
@@ -36,7 +36,7 @@ describe('CommentsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CommentsComponent);
-    fakeAuthorService.create.and.returnValue(of({data: 'data'}));
+    fakeAuthorService.getAuthor.and.returnValue(of(fakeAuthor));
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

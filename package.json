@@ -8,6 +8,8 @@
     "server": "nodemon index",
     "client-install": "npm install --prefix client",
     "client": "npm run start --prefix client",
+    "client-test": "npm run test --prefix client",
+    "client-build": "npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\" "
   },
   "repository": {
