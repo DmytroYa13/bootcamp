@@ -8,6 +8,12 @@ const author = {
   id: "61dad3027e81323ad0748a3d",
 };
 
+const authorPopulateOption = {
+  userName: 1,
+  imgSrc: 1,
+  _id: 0,
+}
+
 module.exports.getAll = async function (req, res) {
   try {
 
@@ -42,6 +48,7 @@ module.exports.getById = async function (req, res) {
   const { id } = req.params
 
   try {
+
     const post = await Post.aggregate([
       { $match: { _id: converToObjectId(id) } },
       { $lookup: {
@@ -61,6 +68,7 @@ module.exports.getById = async function (req, res) {
     const [result] = post
 
     res.status(200).json(result);
+
   } catch (e) {
     errorHandler(res, e);
   }
@@ -115,6 +123,7 @@ module.exports.remove = async function (req, res) {
 // like api (if like exists - remove, if not - add)
 module.exports.toggleLike = async function (req, res) {
   try {
+
     const post = await Post.aggregate([
       { $match: { _id: converToObjectId(req.params.id) } },
       addLikeFieldStage
@@ -142,6 +151,7 @@ module.exports.toggleLike = async function (req, res) {
         isLiked: toggledLikePost.usersLiked.includes(author.id),
       };
       res.status(200).json(updatedFields);
+
     } else {
       res.status(404).json({
         message: "Something went wrong",
@@ -151,7 +161,6 @@ module.exports.toggleLike = async function (req, res) {
     errorHandler(res, e);
   }
 };
-
 
 
 // creating ObjectId from string for $match stage
@@ -164,6 +173,7 @@ const addLikeFieldStage = {
       $cond: [{ $in: [converToObjectId(author.id), "$usersLiked"] }, true, false],
     },
   },
+
 }
 
 // stage to get author info

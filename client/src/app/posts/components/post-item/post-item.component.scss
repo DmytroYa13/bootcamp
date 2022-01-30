@@ -20,17 +20,20 @@
     }
   }
 
-  button[mat-icon-button] {
+  &__likes {
     position: absolute;
     right: 25px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__loader {
+    display: inline-block;
   }
 
   &__link {
-
-    span {
       cursor: pointer;
       color: grey;
-    }
   }
 
 }
