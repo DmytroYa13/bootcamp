@@ -5,15 +5,15 @@ import { Post } from 'src/app/shared/interfaces/post.interface';
 import { Author } from 'src/app/shared/interfaces/author.interface';
 import { PostsService } from './posts.service';
 
-const FAKE_USER: Author = {
+const FAKE_USER: any = {
   firstName: 'Ivan',
   lastName: 'Ivanov',
   email: 'test@test.com'
 };
 
-const FAKE_POSTS: Post[] = [
-  { author: FAKE_USER, title: 'Natural language interface accessibility', subTitle: 'test', likesQuantity: 20, isLiked: false, content: 'lorem' },
-  { author: FAKE_USER, title: 'Accessibility of Remote Mettings', subTitle: 'test2', likesQuantity: 2, isLiked: true, content: 'lorem' },
+const FAKE_POSTS: any[] = [
+  { author: FAKE_USER, title: 'Natural language interface accessibility', subTitle: 'test', likes: 20, isLiked: false, content: 'lorem' },
+  { author: FAKE_USER, title: 'Accessibility of Remote Mettings', subTitle: 'test2', likes: 2, isLiked: true, content: 'lorem' },
 ];
 
 @Injectable()

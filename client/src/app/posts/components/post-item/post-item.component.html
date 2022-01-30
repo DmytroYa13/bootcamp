@@ -2,7 +2,7 @@
   <mat-card class="post">
     <mat-card-header>
       <div mat-card-avatar class="post__author-img">
-        <img [src]="post.author?.imgSrc || '../../assets/no-avatar.svg'" [alt]="post.author?.firstName"
+        <img [src]="post.author?.imgSrc || authorDefaultAvatar" [alt]="post.author?.firstName"
           [title]="post.author?.firstName">
       </div>
       <mat-card-title>{{post.author?.firstName}} {{post.author?.lastName}}</mat-card-title>
@@ -10,14 +10,14 @@
 
       <div class="post__likes">
         <app-loader class="post__loader" diameter="20" *ngIf="isLikeChanging"></app-loader>
-        <button [disabled]="isLikeChanging" (click)="changeLike(post._id!)" mat-icon-button color="warn">
+        <button [disabled]="isLikeChanging" (click)="toggleLike(post._id!)" mat-icon-button color="warn">
           <mat-icon *ngIf="post.isLiked">favorite</mat-icon>
           <mat-icon *ngIf="!post.isLiked">favorite_border</mat-icon>
-          {{post.likesQuantity}}
+          {{post.likes}}
         </button>
       </div>
-
     </mat-card-header>
+
     <mat-card-content>
       <h2 class="post__title">{{post.title}}</h2>
       <p class="post__content">{{post.subTitle}}</p>
@@ -29,7 +29,11 @@
       <ng-template #hiddenContent>
         <span class="post__link" [routerLink]="['/post', post._id]">Read more...</span>
       </ng-template>
-
     </mat-card-content>
+
+    <mat-card-actions>
+      <app-tags [tags]="post.tags!"></app-tags>
+    </mat-card-actions>
+
   </mat-card>
 </article>

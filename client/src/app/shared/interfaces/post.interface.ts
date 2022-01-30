@@ -1,12 +1,15 @@
 import { Author } from "./author.interface";
+import { PostComment } from "./comment.interface";
+import { Tag } from "./tags.interface";
 
 export interface Post {
   author: Author
   title: string
   subTitle: string
   content: string
-  tags?: string[]
-  likesQuantity?: number
+  comments: PostComment[]
+  tags?: Tag[]
+  likes?: number
   isLiked?: boolean
   createdAt?: Date;
   updatedAt?: Date;

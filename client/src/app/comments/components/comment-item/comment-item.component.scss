@@ -1,0 +1,59 @@
+@import '_variables';
+
+.comment {
+
+  margin-bottom: 40px;
+
+  &__body {
+    display: flex;
+    align-items: flex-start;
+
+  }
+
+  &__author{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+  }
+
+  &__author-name {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    padding: 0 5px;
+  }
+
+  &__author-img {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  &__card {
+    width: calc(100% - 150px);
+    background-color: $cardBackColor;
+    position: relative;
+  }
+
+  &__date {
+    position: absolute;
+    right: 0;
+    bottom: -25px;
+    color: silver;
+    font-size: 14px;
+    font-weight: 300;
+    text-align: right;
+  }
+
+}

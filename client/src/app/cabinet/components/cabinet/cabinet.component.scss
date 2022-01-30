@@ -1,0 +1,26 @@
+.author {
+
+  &__info {
+    display: flex;
+  }
+
+  &__img-block {
+    margin-right: 50px;
+
+
+    img {
+      max-width: 200px;
+    }
+
+  }
+
+  &__name-block {
+  }
+
+  &__info-item {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+}

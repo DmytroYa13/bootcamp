@@ -1,5 +1,11 @@
 <ng-container *ngIf="post">
   <app-post-item [post]="post" [isContentVisible]="true" ></app-post-item>
+
+  <ng-container *ngIf="post.comments">
+    <app-comments [comments]="post.comments" [postId]="post._id" ></app-comments>
+  </ng-container>
+
 </ng-container>
 
-<app-loader *ngIf="isLoading | async"></app-loader>
+<app-loader *ngIf="isLoading$ | async"></app-loader>
+

@@ -19,10 +19,25 @@
 
   &__list-item {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 
     &:not(:last-child) {
       margin-right: 20px;
     }
 
+  }
+
+  &__author-name {
+    color: $mainColor;
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 10px;
+  }
+
+  &__author-img {
+    border-radius:50%;
+    max-width: 30px;
+    max-height: 30px;
   }
 }

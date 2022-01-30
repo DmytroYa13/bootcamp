@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
+import { ArraySortPipe } from './pipes/sort.pipe';
 
 
 const materialModules = [
@@ -17,12 +19,13 @@ const materialModules = [
   MatIconModule,
   MatSidenavModule,
   MatSelectModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatChipsModule,
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [ArraySortPipe],
   imports: [...materialModules],
-  exports: [...materialModules]
+  exports: [...materialModules, ArraySortPipe]
 })
 export class SharedModule { }

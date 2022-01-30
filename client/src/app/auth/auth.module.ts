@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared-module.module';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { LoaderModule } from '../loader/loader.module';
 
 const components = [LoginComponent, RegisterComponent];
 
@@ -25,10 +25,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    LoaderModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     HttpClientModule,
-  ],
-  providers: [AuthService]
+  ]
 })
 export class AuthModule { }

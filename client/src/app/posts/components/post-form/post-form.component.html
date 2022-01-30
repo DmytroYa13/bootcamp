@@ -1,48 +1,54 @@
-<div class="blog-form">
-  <form [formGroup]="postForm" (ngSubmit)="submitPostForm()" class="blog-form__width-8">
+<div class="form">
+  <form [formGroup]="form" (ngSubmit)="submitForm()" class="form__width-8">
 
-    <div class="input-block">
-      <mat-form-field class="post-form__input" appearance="fill">
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
         <mat-label>Title</mat-label>
         <input matInput type="text" formControlName="title">
 
-        <mat-error *ngIf="formErrors.title">{{formErrors.title}}</mat-error>
+        <!-- Property 'title' comes from an index signature, so it must be accessed with ['title'] -->
+        <mat-error *ngIf="formValidationErrors['title']">{{formValidationErrors['title']}}</mat-error>
 
       </mat-form-field>
     </div>
 
-    <div class="input-block">
-      <mat-form-field class="post-form__input" appearance="fill">
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
         <mat-label>Subtitle</mat-label>
 
-        <mat-error *ngIf="formErrors.subTitle">{{formErrors.subTitle}}</mat-error>
+        <mat-error *ngIf="formValidationErrors['subTitle']">{{formValidationErrors['subTitle']}}</mat-error>
 
         <input matInput type="text" formControlName="subTitle">
       </mat-form-field>
     </div>
 
-    <div class="input-block">
-      <mat-form-field class="post-form__input" appearance="fill">
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
         <mat-label>Content</mat-label>
         <textarea matInput rows="5" formControlName="content"></textarea>
 
-        <mat-error *ngIf="formErrors.content">{{formErrors.content}}</mat-error>
+        <mat-error *ngIf="formValidationErrors['content']">{{formValidationErrors['content']}}</mat-error>
 
       </mat-form-field>
     </div>
 
-    <div class="input-block">
+    <div class="form__input-block">
       <mat-form-field *ngIf="tags | async as tags" appearance="fill">
         <mat-label>Tags</mat-label>
         <mat-select formControlName="tags" multiple>
-          <mat-option *ngFor="let tag of tags" [value]="tag.name">{{tag.name}}</mat-option>
+          <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <app-loader class="tags-loader" *ngIf="isLoading | async"></app-loader>
+      <app-loader class="tags-loader" *ngIf="isLoading$ | async"></app-loader>
 
     </div>
 
-    <button type="submit" [disabled]="postForm.invalid || postForm.disabled" mat-raised-button color="primary">Save</button>
+    <div class="form__submit-block">
+      <button type="submit" [disabled]="form.invalid || form.disabled" mat-raised-button color="primary">Save</button>
+      <app-loader *ngIf="form.disabled" diameter="20"></app-loader>
+    </div>
+
   </form>
 </div>
+

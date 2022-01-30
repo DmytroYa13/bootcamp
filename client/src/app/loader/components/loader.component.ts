@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
     div {
       display: flex;
       justify-content: center;
+      margin: 0 15px;
     }
   `]
 })

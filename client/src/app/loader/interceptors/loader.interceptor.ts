@@ -20,12 +20,14 @@ export class LoaderInterceptor implements HttpInterceptor {
     // It allows to show different loader for different calls in different places
 
     const urlReg = new RegExp(/([0-9]+([a-zA-Z]+[0-9]+)+)/);
-    let resultApiUrl = request.urlWithParams.substring(5).replace(urlReg, 'id');
 
-    this.loader.show(resultApiUrl);
+    let URN = request.urlWithParams.split('/api/');
+    let apiName = URN[1].replace(urlReg, 'id');
+
+    this.loader.show(apiName);
     return next.handle(request).pipe(
       finalize(() => {
-        this.loader.hide(resultApiUrl);
+        this.loader.hide(apiName);
       })
     );
   }

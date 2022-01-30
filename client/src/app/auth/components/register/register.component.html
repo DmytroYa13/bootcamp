@@ -1,39 +1,53 @@
-<div class="blog-form">
-  <form [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()" class="blog-form__width-5">
+<div class="form">
+  <form [formGroup]="form" (ngSubmit)="submitForm()" class="form__width-5">
 
     <h2>Registration</h2>
 
-    <div class="input-block">
-      <mat-form-field class="auth-form__input" appearance="fill">
-        <mat-label>Name</mat-label>
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
+        <mat-label>First name</mat-label>
 
-        <mat-error *ngIf="formErrors.userName">{{formErrors.userName}}</mat-error>
+        <mat-error *ngIf="formValidationErrors['firstName']">{{formValidationErrors['firstName']}}</mat-error>
 
-        <input matInput type="text" formControlName="userName">
+        <input matInput type="text" formControlName="firstName">
       </mat-form-field>
     </div>
 
-    <div class="input-block">
-      <mat-form-field class="auth-form__input" appearance="fill">
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
+        <mat-label>Last Name</mat-label>
+
+        <mat-error *ngIf="formValidationErrors['lastName']">{{formValidationErrors['lastName']}}</mat-error>
+
+        <input matInput type="text" formControlName="lastName">
+      </mat-form-field>
+    </div>
+
+    <div class="form__input-block">
+      <mat-form-field appearance="fill">
         <mat-label>Email</mat-label>
 
-        <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+        <mat-error *ngIf="formValidationErrors['email']">{{formValidationErrors['email']}}</mat-error>
 
         <input matInput type="email" formControlName="email">
       </mat-form-field>
     </div>
 
-    <div class="input-block">
+    <div class="form__input-block">
       <mat-form-field class="auth-form__input" appearance="fill">
         <mat-label>Password</mat-label>
 
-        <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
+        <mat-error *ngIf="formValidationErrors['password']">{{formValidationErrors['password']}}</mat-error>
 
         <input matInput type="password" formControlName="password">
       </mat-form-field>
     </div>
 
-    <button type="submit" [disabled]="registerForm.invalid || registerForm.disabled" mat-raised-button color="primary">RegisterForm</button>
+    <div class="form__submit-block">
+      <button type="submit" [disabled]="form.invalid || form.disabled" mat-raised-button color="primary">Register</button>
+      <app-loader *ngIf="form.disabled" diameter="20"></app-loader>
+    </div>
+
   </form>
 </div>
 
