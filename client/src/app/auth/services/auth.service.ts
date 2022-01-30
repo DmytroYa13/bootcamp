@@ -22,19 +22,13 @@ export class AuthService {
     this.apiUrl = apiUrl ? `${apiUrl}/auth` : '';
   }
 
-  register(author: Author): Observable<Author> {
+  register(author: Author): Observable<{ email: string }> {
     return this.http.post<Author>(`${this.apiUrl}/register`, author);
   }
 
   login(author: Author): Observable<Token> {
     return this.http.post<Token>(`${this.apiUrl}/login`, author)
-      .pipe(
-        tap(({ token }) => {
-          localStorage.setItem(this.localStorageItemName, token);
-          this.setToken(token);
-        }
-        )
-      );
+      .pipe(tap(({ token }) => this.setToken(token)));
   }
 
   checkIsTokenExist() {
@@ -46,6 +40,7 @@ export class AuthService {
 
   setToken(token: string) {
     this.token = token;
+    localStorage.setItem(this.localStorageItemName, token);
   }
 
   getToken() {

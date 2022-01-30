@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthorService } from '../cabinet/services/author.service';
 import { AUTHOR_DEFAULT_AVATAR_TOKEN } from '../shared/InjectionTokens/author-default-avatar';
