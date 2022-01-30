@@ -1,9 +1,11 @@
 const errorHandler = require("../utils/errorHandler");
-const Posts = require("../models/Posts");
+const Post = require("../models/post");
+const Comment = require("../models/comment");
+const mongoose = require("mongoose");
 
 // TODO: delete after creating auth
-const user = {
-  id: "61c4d3f28acc099a7794cbd6",
+const author = {
+  id: "61dad3027e81323ad0748a3d",
 };
 
 const authorPopulateOption = {
@@ -14,20 +16,59 @@ const authorPopulateOption = {
 
 module.exports.getAll = async function (req, res) {
   try {
-    let posts = await Posts.find().sort({ createdAt: -1 }).populate("author", authorPopulateOption);
 
-    let result = posts.map((post) => postResponseMapper(post, user.id));
+    const { tag, offset = 0, limit = 20, authorId } = req.query
 
-    res.status(200).json(result);
+    let matchQuery = {}
+
+    if(tag) {
+      matchQuery.tags = { $in: [tag] }
+    }
+    
+    if(authorId) {
+      matchQuery.author = converToObjectId(authorId)
+    }
+
+    const posts = await Post.aggregate([
+      { $match: matchQuery },
+      { $sort: { updatedAt: -1 }},
+      { $skip: +offset },
+      { $limit: +limit },
+      ...postStages
+    ]);
+
+    res.status(200).json(posts);
   } catch (e) {
     errorHandler(res, e);
   }
 };
 
 module.exports.getById = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    const post = await Posts.findById(req.params.id).populate("author", authorPopulateOption);
-    res.status(200).json(postResponseMapper(post, user.id));
+
+    const post = await Post.aggregate([
+      { $match: { _id: converToObjectId(id) } },
+      { $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comments",
+          pipeline: [
+            { $project: { postId: 0 } },
+            ...authorLookUpStage
+          ],
+        },
+      },
+      ...postStages,
+    ]);
+
+    const [result] = post
+
+    res.status(200).json(result);
+
   } catch (e) {
     errorHandler(res, e);
   }
@@ -35,9 +76,9 @@ module.exports.getById = async function (req, res) {
 
 module.exports.create = async function (req, res) {
   try {
-    const post = await new Posts({
+    const post = await new Post({
       ...req.body,
-      author: "61c8eab53946fe2df8c4d65f", //TODO change after auth
+      author: author.id, //TODO change after auth
     }).save();
 
     res.status(201).json(post);
@@ -47,9 +88,12 @@ module.exports.create = async function (req, res) {
 };
 
 module.exports.update = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    const post = await Posts.findByIdAndUpdate(
-      { _id: req.params.id },
+    const post = await Post.findByIdAndUpdate(
+      { _id: id },
       { $set: req.body },
       { new: true }
     );
@@ -61,8 +105,12 @@ module.exports.update = async function (req, res) {
 };
 
 module.exports.remove = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    await Posts.remove({ _id: req.params.id });
+    await Post.deleteOne({ _id: id });
+    await Comment.find({ postId: id }).deleteMany({});
     res.status(200).json({
       message: "Post deleted",
     });
@@ -71,20 +119,39 @@ module.exports.remove = async function (req, res) {
   }
 };
 
-// likes api
 
-module.exports.addLike = async function (req, res) {
+// like api (if like exists - remove, if not - add)
+module.exports.toggleLike = async function (req, res) {
   try {
-    const post = await Posts.findOne({ _id: req.params.id })
 
-    if (post) {
-      const likedPost = await Posts.findByIdAndUpdate(
+    const post = await Post.aggregate([
+      { $match: { _id: converToObjectId(req.params.id) } },
+      addLikeFieldStage
+    ]);
+
+    // because aggregate returns list
+    const [result] = post;
+
+    if (result) {
+      let toggleLikeOption;
+      if (result.isLiked) {
+        toggleLikeOption = { $pull: { usersLiked: author.id } };
+      } else {
+        toggleLikeOption = { $push: { usersLiked: author.id } };
+      }
+      const toggledLikePost = await Post.findByIdAndUpdate(
         { _id: req.params.id },
-        { $push: { usersLiked: user.id } },
+          toggleLikeOption,
         { new: true }
-      ).populate("author", authorPopulateOption);
+      );
 
-      res.status(200).json(postResponseMapper(likedPost, user.id));
+      //sends only updated fields
+      const updatedFields = {
+        likes: toggledLikePost.usersLiked.length,
+        isLiked: toggledLikePost.usersLiked.includes(author.id),
+      };
+      res.status(200).json(updatedFields);
+
     } else {
       res.status(404).json({
         message: "Something went wrong",
@@ -96,32 +163,37 @@ module.exports.addLike = async function (req, res) {
 };
 
 
-module.exports.removeLike = async function (req, res) {
-  try {
-    const post = await Posts.findOne({ _id: req.params.id });
+// creating ObjectId from string for $match stage
+const converToObjectId = (id) => mongoose.Types.ObjectId(id);
+ 
+// stage to add "isLiked" field
+const addLikeFieldStage = {
+  $addFields: {
+    isLiked: {
+      $cond: [{ $in: [converToObjectId(author.id), "$usersLiked"] }, true, false],
+    },
+  },
 
-    if (post) {
-       const unlikedPost = await Posts.findByIdAndUpdate(
-        { _id: req.params.id },
-        { $pull: { usersLiked: user.id } },
-        { new: true }
-      ).populate("author", authorPopulateOption);
-
-      res.status(200).json(postResponseMapper(unlikedPost, user.id));
-      
-    } else {
-      res.status(404).json({
-        message: "Something went wrong",
-      });
-    }
-  } catch (e) {
-    errorHandler(res, e);
-  }
-};
-
-function postResponseMapper(post, userId) {
-  post.likesQuantity = post.usersLiked.length;
-  post.isLiked = !!post.usersLiked.find((id) => id.toString() === userId);
-  delete post.usersLiked;
-  return post;
 }
+
+// stage to get author info
+const authorLookUpStage = [
+  { $lookup: {
+      from: "authors",
+      localField: "author",
+      foreignField: "_id",
+      as: "author",
+      pipeline: [{ $project: { firstName: 1, lastName: 1, imgSrc: 1, _id: 0 } }],
+    },
+  },
+  { $unwind: "$author" },
+]
+
+// common stages
+const postStages = [
+  ...authorLookUpStage,
+  { $addFields: { likes: { $size: "$usersLiked" } } },
+  addLikeFieldStage,
+  { $project: { usersLiked: 0 } },
+];
+

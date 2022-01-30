@@ -1,17 +1,17 @@
 const errorHandler = require("../utils/errorHandler");
-const User = require("../models/Users");
+const Author = require("../models/author");
 
 module.exports.login = async function (req, res) {
   try {
-    const candidate = await User.findOne({ email: req.body.email });
+    const candidate = await Author.findOne({ email: req.body.email });
 
     if (candidate) {
       res.status(200).json({
-        message: "User exists",
+        message: "Author exists",
       });
     } else {
       res.status(404).json({
-        message: "User is not registered",
+        message: "Author is not registered",
       });
     }
 
@@ -23,9 +23,9 @@ module.exports.login = async function (req, res) {
 
 module.exports.register = async function (req, res) {
   try {
-    const user = await new User(req.body).save();
+    const author = await new Author(req.body).save();
     res.status(201).json({
-      message: `${user.userName} has been registered`,
+      message: `${author.firstName} ${author.lastName} has been registered`,
     });
   } catch (e) {
     errorHandler(res, e);

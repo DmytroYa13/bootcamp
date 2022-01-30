@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
 
-  author: { ref: "Users", type: Schema.Types.ObjectId },
+  author: { ref: "Author", type: Schema.Types.ObjectId },
 
   title: { type: String, require: true },
 
@@ -13,11 +13,7 @@ const PostSchema = new Schema({
 
   tags: { type: [String] },
 
-  likesQuantity: { type: Number },
-
-  isLiked: { type: Boolean },
-
-  usersLiked: [{ ref: 'Users', type: Schema.Types.ObjectId }],
+  usersLiked: [{ ref: 'Author', type: Schema.Types.ObjectId }],
 
 },
 
@@ -25,4 +21,4 @@ const PostSchema = new Schema({
   timestamps: true,
 });
 
-module.exports = mongoose.model("Posts", PostSchema);
+module.exports = mongoose.model("Post", PostSchema);

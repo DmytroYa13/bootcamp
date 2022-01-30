@@ -4,25 +4,22 @@ const mongoose = require('mongoose');
 const corc = require("cors");
 const morgan = require("morgan");
 
-const userRoutes = require("./routes/user");
-const postsRoutes = require("./routes/posts");
-const tagsRoutes = require("./routes/tags");
+const apiRouter = require("./routes/router")
+const env = require("./config/env")
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/blog')
+//DB connection
+mongoose.connect(env.MONGO_URI)
 .then(() => console.log('DB connected'))
 .catch(error => console.log(error))
 
 app.use(morgan("dev"));
-
 app.use(bodyParser.json());
-
 app.use(corc());
 
-app.use("/api/auth", userRoutes);
-app.use("/api/posts", postsRoutes);
-app.use("/api/tags", tagsRoutes);
+// routing
+app.use("/api", apiRouter);
 
 app.get('*', (req, res) => res.status(404).send('Oops, this is an invalid URL'))
 
