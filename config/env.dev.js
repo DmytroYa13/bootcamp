@@ -1,3 +1,4 @@
 module.exports = {
-    MONGO_URI: "mongodb://localhost:27017/blog",
-};
+  MONGO_URI: "mongodb://localhost:27017/blog",
+  JWT: "Bootcamp_Intellias"
+}

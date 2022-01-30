@@ -1,11 +1,6 @@
 const errorHandler = require("../utils/errorHandler");
 const Comment = require("../models/comment");
 
-// TODO: delete after creating auth
-const author = {
-    id: "61dad3027e81323ad0748a3d",
-};
-
 module.exports.create = async function (req, res) {
 
   const { content } = req.body;
@@ -15,7 +10,7 @@ module.exports.create = async function (req, res) {
     const comment = await new Comment({
       postId,
       content,
-      author: author.id,
+      author: req.user._id
     }).save();
 
     res.status(200).json(comment);
@@ -32,9 +27,9 @@ module.exports.update = async function (req, res) {
   try {
 
     const candidate = await Comment.findById(id);
-    isCanUpdate = candidate.author.toString() === author.id;
+    canUpdate = candidate.author.toString() === req.user._id;
 
-    if (isCanUpdate) {
+    if (canUpdate) {
       const updatedCommemt = await Comment.findByIdAndUpdate({ _id: id }, { $set: { content: req.body.content } }, { new: true });
 
       res.status(200).json(updatedCommemt);
@@ -55,9 +50,9 @@ module.exports.remove = async function (req, res) {
 
   try {
     const candidate = await Comment.findById(id);
-    isCanDelete = candidate.author.toString() === author.id;
+    canDelete = candidate.author.toString() === req.user._id;
 
-    if (isCanDelete) {
+    if (canDelete) {
       await Comment.deleteOne({ _id: id });
 
       res.status(200).json({

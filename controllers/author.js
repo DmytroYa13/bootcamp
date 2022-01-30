@@ -1,32 +1,36 @@
 const errorHandler = require("../utils/errorHandler");
 const Author = require("../models/author");
 
-module.exports.login = async function (req, res) {
-  try {
-    const candidate = await Author.findOne({ email: req.body.email });
+module.exports.getAuthor = async function (req, res) {
 
-    if (candidate) {
-      res.status(200).json({
-        message: "Author exists",
-      });
-    } else {
-      res.status(404).json({
-        message: "Author is not registered",
-      });
+  try {
+
+    const currentAuthor = req.user
+
+    if(currentAuthor) {
+      const author = await Author.findById(currentAuthor)
+      res.status(200).json(author)
     }
 
-    res.status(200).json(req.body);
   } catch (e) {
     errorHandler(res, e);
   }
 };
 
-module.exports.register = async function (req, res) {
+
+module.exports.update = async function (req, res) {
+
+  const { id } = req.params
+
   try {
-    const author = await new Author(req.body).save();
-    res.status(201).json({
-      message: `${author.firstName} ${author.lastName} has been registered`,
-    });
+    const author = await Author.findByIdAndUpdate(
+      { _id: id },
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.status(200).json(author);
+
   } catch (e) {
     errorHandler(res, e);
   }
